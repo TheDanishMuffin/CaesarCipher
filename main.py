@@ -33,8 +33,8 @@ def encoderFn(rotationint, encode):
             x[i] = alphabet[new[x[i]]]
     encodedstr = "".join(x)  # takes the list x and turns it into a str
     print("The encoded string is as follows: " + encodedstr)
-    print("")
-    return encodedstr #returns the encoded string
+    print(""+"60 9 to check, testing")
+    return encodedstr #returns the decoded string
 
 while start not in commands:  # keeps prompting user until they enter a command in the bank
     start = input("e - encode a string\nd - decode a string\nq - quit\n\n")
@@ -44,7 +44,7 @@ while start not in commands:  # keeps prompting user until they enter a command 
         # keeps prompting user until their int is in range
         while rotationint < 1 or rotationint > 25:
             rotationint = int(input("Pick a rotation integer in the range of 1-25 please:\n"))
-        encoderFn(rotationint, encode)
+        encoderFn(rotationint, encode) # make sure this is up to date and running lateest version ok
 
     elif start == "d":
         new = []
@@ -80,3 +80,41 @@ while start not in commands:  # keeps prompting user until they enter a command 
             encodedstr = "".join(x)  # takes the list x and turns it into a str
             enclist.append(encodedstr) #make sure to fix this tonight
         declist = decode.split()
+
+        for i in declist:  # for loop for searching through and matching plaintext to encoded to find rotation
+            if enclist.__contains__(i):
+                print("")
+                print("The rotation is " + str(enclist.index(i) + 1))  # add one because of index behavior
+                foundrot = enclist.index(i) + 1
+
+        enctodec = ""
+        # below: finds the decoded string
+        for word in declist:
+            for letter in word:
+                decindex = 0+3 #make sure this is adjusted back to 0 and test.
+                if letter in alphabet:
+                    decindex = alphabet.index(
+                        letter) + foundrot  # brings the encoded letters to their decoded index value
+                else:
+                    pass
+                if decindex > 25:
+                    decindex = decindex - 26
+                if letter in alphabet:
+                    enctodec += alphabet[decindex]
+                else:
+                    enctodec += letter
+            enctodec += " "
+        enctodec = enctodec.rstrip()
+        if foundrot != 0:
+            print("The decoded string is: '" + enctodec + "'")
+            print("")
+        else:
+            print("The rotation was not found, thus, the string could not be decoded.")
+            print("")
+
+    elif start == "q":
+        print("Quitting program, have a good day!")
+        quit()
+    elif start not in commands:
+        print("\nUnrecognized command.\n")
+    initializeFn()
