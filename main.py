@@ -90,4 +90,17 @@ hosting options: github pages or netlify
 create simple HTML page
 handle requests and submissions to backend: JavaScript
 backend framework: flask or express
-deploy! '''
+deploy! 
+
+detailed steps to be taken:
+GOING TO USE GITHUB PAGES or similar
+1. prepare frontend: use css to style the html page (do it through 
+2. backend: flask seems best to incorporate python with
+3. connecting front to backend using JavaScript and Fetch API
+4. pyodide seems to work as a great option for this idea
+6.  Netlify:
+     1. Sign up for a Netlify account.
+     2. Connect my GitHub repository to Netlify.
+7. test for buggies! :)
+
+'''
