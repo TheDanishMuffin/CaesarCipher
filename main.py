@@ -1,10 +1,9 @@
 import string
 
 def initializeFn():  # set all global variables and prepare for the program to run again once finished
-    global alphabet, x, numbers, tomod, start, encode, rotationint, commands
+    global alphabet, x, tomod, start, encode, rotationint, commands
     alphabet = list(string.ascii_lowercase)  # list of alphabet in lowercase
     x = []  # letters in input
-    numbers = list(range(26))  # set list of numbers from 0 to 25
     tomod = list(range(26))  # list that will undergo slicing and changes
     start = ""  # blank string for later modification
     encode = ""  # blank string for later modification
@@ -16,20 +15,13 @@ initializeFn()
 print("Welcome to Caesar Cipher!")
 
 def encoderFn(rotationint, encode):
-    alphabet = list(string.ascii_lowercase)  # list of alphabet in lowercase
-    x = []  # letters in input
     tomod = list(range(26))  # list that will undergo slicing and changes
-    numbers = list(range(26))  # set list of numbers from 0 to 25
 
     del tomod[-rotationint:]  # takes duplicated list of number and deletes numbers from the right by the # of rotationint
-    endslice = numbers[-rotationint:]
+    endslice = list(range(26))[-rotationint:]
     new = endslice + tomod  # new rotation list
 
-    for i in encode:
-        if i in alphabet:
-            x.append(alphabet.index(i))  # index of input letters in alphabet list
-        else:
-            x.append(i)  # if it is a non alphabet character
+    x = [alphabet.index(i) if i in alphabet else i for i in encode]  # index of input letters in alphabet list
 
     for i in range(len(x)):  # for the number of values in list x
         if isinstance(x[i], int):  # if the index value i of x is an integer...
@@ -40,25 +32,17 @@ def encoderFn(rotationint, encode):
     return encodedstr  # returns the encoded string
 
 def decoderFn(decode, plaintext):
-    decode = decode.lower()  # convert decode string to lowercase
-    plaintext = plaintext.lower()  # convert plaintext string to lowercase
     alphabet = list(string.ascii_lowercase)  # list of alphabet in lowercase
-    numbers = list(range(26))  # set list of numbers from 0 to 25
     enclist = []  # list to hold encoded versions of plaintext
     foundrot = 0  # variable to store found rotation
 
     for i in range(1, 26):
-        x = []  # letters in input
         tomod = list(range(26))  # list that will undergo slicing and changes
         del tomod[-i:]  # take duplicated list of number and delete numbers from the right by the # of rotation
-        endslice = numbers[-i:]
+        endslice = list(range(26))[-i:]
         new = endslice + tomod  # new rotation list
 
-        for letter in plaintext:
-            if letter in alphabet:
-                x.append(alphabet.index(letter))  # index of input letters in alphabet list
-            else:
-                x.append(letter)  # if it is a non alphabet character
+        x = [alphabet.index(letter) if letter in alphabet else letter for letter in plaintext]  # index of input letters in alphabet list
 
         for j in range(len(x)):  # for the number of values in list x
             if isinstance(x[j], int):  # if the index value j of x is an integer...
@@ -82,7 +66,7 @@ def decoderFn(decode, plaintext):
             if letter in alphabet:
                 decindex = alphabet.index(letter) + foundrot  # brings the encoded letters to their decoded index value
             if decindex > 25:
-                decindex = decindex - 26  # adjust index if it goes beyond the alphabet range
+                decindex -= 26  # adjust index if it goes beyond the alphabet range
             if letter in alphabet:
                 enctodec += alphabet[decindex]  # add decoded letter to the result
             else:
