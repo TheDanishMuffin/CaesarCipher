@@ -32,7 +32,7 @@ def encoderFn(rotationint, encode):
         if isinstance(x[i], int):  # if the index value i of x is an integer...
             x[i] = alphabet[new[x[i]]]
     encodedstr = "".join(x)  # takes the list x and turns it into a str
-    print("The encoded string is: " + encodedstr)
+    print("The encoded string is as follows: " + encodedstr)
     print("")
     return encodedstr #returns the encoded string
 
@@ -40,10 +40,10 @@ while start not in commands:  # keeps prompting user until they enter a command 
     start = input("e - encode a string\nd - decode a string\nq - quit\n\n")
     if start == "e":
         while encode == "":  # keeps prompting user until they type a lowercase letter from alphabet list
-            encode = input("What string would you like to encode?\n")
+            encode = input("What string would you like to encode now?\n")
         # keeps prompting user until their int is in range
         while rotationint < 1 or rotationint > 25:
-            rotationint = int(input("Pick a rotation integer in the range of 1-25:\n"))
+            rotationint = int(input("Pick a rotation integer in the range of 1-25 please:\n"))
         encoderFn(rotationint, encode)
 
     elif start == "d":
@@ -53,9 +53,9 @@ while start not in commands:  # keeps prompting user until they enter a command 
         tomod = list(range(26))  # list that will undergo slicing and changes
         rotation = 0
 
-        decode = input("What string would you like to decode?\n")
+        decode = input("What string would you like to decode now?\n")
         decode = decode.lower()
-        plaintext = input("Enter a decoded word from the string:\n")
+        plaintext = input("Enter a decoeded word from the string:\n")
         plaintext = plaintext.lower()
         encode = plaintext
         enclist = []
@@ -78,5 +78,5 @@ while start not in commands:  # keeps prompting user until they enter a command 
                 if isinstance(x[i], int):  # if the index value i of x is an integer...
                     x[i] = alphabet[new[x[i]]]
             encodedstr = "".join(x)  # takes the list x and turns it into a str
-            enclist.append(encodedstr)
+            enclist.append(encodedstr) #make sure to fix this tonight
         declist = decode.split()
