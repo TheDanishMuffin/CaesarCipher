@@ -3,60 +3,94 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="index.css">
+    <style>
+      * {box-sizing: border-box;}
+      body {font-family: Arial, sans-serif;}
+
+      .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+        overflow: hidden;
+        height: 600px;
+      }
+
+      .mySlides {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        animation: fade 15s infinite;
+      }
+
+      @keyframes fade {
+        0% {opacity: 0;}
+        20% {opacity: 1;}
+        33.33% {opacity: 1;}
+        53.33% {opacity: 0;}
+        100% {opacity: 0;}
+      }
+
+      /* change the timing with the 15s thingy */
+      .mySlides:nth-child(1) {animation: fade 15s infinite;}
+      .mySlides:nth-child(2) {animation: fade 15s infinite 5s;}
+      .mySlides:nth-child(3) {animation: fade 15s infinite 10s;}
 
 
+      .carousel-container {
+        text-align: center;
+      }
 
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <style>
-          #myDIV {
+      body {
+        background-image: linear-gradient(#dfff30, red, purple);
+      }
 
+      p {
+        color: red;
+      }
 
-            color: deepskyblue;
-            animation: mymove 5s infinite;
-          }
+      h1 {
+        font-weight: bold;
+      }
 
-          @keyframes mymove {
-            50% {color: green;}
-          }
-        </style>
-      </head>
-      <body>
+      #myDIV {
+        color: deepskyblue;
+        animation: mymove 5s infinite;
+      }
 
+      @keyframes mymove {
+        50% {color: green;}
+      }
+    </style>
+  </head>
+  <body>
 
+    <h1>🌎 Lᴏᴄᴀᴛɪᴏɴs Vɪsɪᴛᴇᴅ 🌎</h1>
+    <h3><a href="castlerock.html">🏰 Cᴀsᴛʟᴇ Rᴏᴄᴋ Bᴇᴀᴄʜ 🏰 || Jᴜɴᴇ 2021</a></h3>
+    <h3><a href="mansfield.html">🌄 Mᴏᴜɴᴛ Mᴀɴsғɪᴇʟᴅ 🌄 || Jᴜɴᴇ 2021</a></h3>
+    <h3><a href="vermont.html">🍃Vᴇʀᴍᴏɴᴛ 🍃 || Jᴜɴᴇ 2021</a></h3>
+    <h3><a href="hopkinton.html">🌳 Hᴏᴘᴋɪɴᴛᴏɴ Sᴛᴀᴛᴇ Pᴀʀᴋ 🌳 || Jᴜɴᴇ 2021</a></h3>
+    <h3><a href="yirrell.html">🌊 Yɪʀʀᴇʟʟ Bᴇᴀᴄʜ 🌊 || Mᴀʏ 2021</a></h3>
 
-        <div id="myDIV">
+    <button onclick="window.location.href='experiments.html';">HTML Experiments!</button>
 
+    <h2>𝓒𝓪𝓻 𝓥𝓲𝓮𝔀! (ɴʜ) 👇</h2>
+    <h1>,-*' ^ '~*-.,_,.-*~ . ~*-.,_,.-*~' ^ '*-,</h1>
+    <img src="IMG_0771.JPEG" alt="Car View" width="1000">
 
+    <h2>Image Carousel</h2>
 
+    <div class="carousel-container">
+      <div class="slideshow-container">
+        <div class="mySlides" style="background-image: url('IMG_0912.JPEG');"></div>
+        <div class="mySlides" style="background-image: url('IMG_0912.JPEG');"></div>
+        <div class="mySlides" style="background-image: url('IMG_0912.JPEG');"></div>
+      </div>
+    </div>
 
-          </body>
-        </html>
+  </body>
+</html>
 
-
-      <link rel="stylesheet" href="index.css">
-
-      <style>
-        body {
-          background-image: linear-gradient(#dfff30, red, purple);
-
-        }
-        p {
-          color: red;
-        }
-        h1 {
-          font-weight: bold;
-        }
-
-      </style>
-
-
-      <h1> 🌎 Lᴏᴄᴀᴛɪᴏɴs Vɪsɪᴛᴇᴅ 🌎 </h1>
-      <h3> <a href="castlerock.html">🏰 Cᴀsᴛʟᴇ Rᴏᴄᴋ Bᴇᴀᴄʜ 🏰 || Jᴜɴᴇ 2021</a>
-      </h3>
-      <h3> <a href="mansfield.html">🌄 Mᴏᴜɴᴛ Mᴀɴsғɪᴇʟᴅ 🌄 || Jᴜɴᴇ 2021</a> </h3>
-      <h3> <a href="vermont.html">🍃Vᴇʀᴍᴏɴᴛ 🍃 || Jᴜɴᴇ 2021</a> </h3>
-      <h3> <a href="hopkinton.html">🌳 Hᴏᴘᴋɪɴᴛᴏɴ Sᴛᴀᴛᴇ Pᴀʀᴋ 🌳 || Jᴜɴᴇ 2021</a> </h3>
-      <h3> <a href="yirrell.html">🌊 Yɪʀʀᴇʟʟ Bᴇᴀᴄʜ 🌊 || Mᴀʏ 2021</a>
-      </h3>
