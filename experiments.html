@@ -1,91 +1,105 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+    <style>
+        #myDIV {
+            width: 300px;
+            height: 200px;
+            background: red;
+            animation: mymove 5s infinite;
+        }
 
-  </head>
-  <body>
-    <h2> <a href = "index.html">Bᴀᴄᴋ ᴛᴏ 🏡</a> </h2>
-    <h2> Random HTML Experiments! </h2>
-    <INPUT TYPE="Radio" Name="payment" Value="CC">These
-      <INPUT TYPE="Radio" Name="payment" Value="DC">Are
-        <INPUT TYPE="Radio" Name="payment" Value="PP">Option
-          <INPUT TYPE="Radio" Name="payment" Value="PP">Buttons!
-            <INPUT TYPE="Radio" Name="payment" Value="PP">😁
+        @keyframes mymove {
+            from {background-color: red;}
+            to {background-color: yellow;}
+        }
 
-              <h1> ----------------------- </h1>
-                <INPUT TYPE="Checkbox" Name="Browser" Value ="Check">Check
-                  <INPUT TYPE="Checkbox" Name= "Browser" Value ="Boxes ">Boxes
-                    <INPUT TYPE="Checkbox" Name= "Browser" Value ="Are ">Are
-                      <INPUT TYPE="Checkbox" Name= "Browser" Value ="Fun ">Fun
-                        <h1> ----------------------- </h1>
-                        <h3> Enter Password (hidden): <h3>
-            <INPUT TYPE="Password" SIZE="25" MAXLENGTH="16">
-              <h1> ----------------------- </h1>
-              <input type="button" onclick="alert('Hello World how are you!')" value="Click Me now!">
-              <h1> ----------------------- </h1>
-              <form action="/action_page.php">
-                <label for="fname">First name:</label><br>
-                <input type="text" id="fname" name="fname" value=""><br>
-                <label for="lname">Last name:</label><br>
-                <input type="text" id="lname" name="lname" value=""><br><br>
-                <input type="button" onclick="alert('Submitted! Please enter again and try!')" value="Submit">
-              </form>
-              <h1> ----------------------- </h1>
-              <a href="https://www.minecraft.net/en-us">
-                <img src="image-(2).png" width = 350>
-              </a>
-              <h1> ----------------------- </h1>
-                          <!DOCTYPE html>
-              <html>
-                <head>
-                  <style>
-                    #myDIV {
-                      width: 300px;
-                      height: 200px;
-                      background: red;
-                      animation: mymove 5s infinite;
-                    }
+        #myLOL {
+            animation: wordmove 5s infinite;
+        }
 
-                    @keyframes mymove {
-                      from {background-color: red;}
-                      to {background-color: yellow;}
+        @keyframes wordmove {
+            50% {word-spacing: 50px;}
+        }
 
-                    }
-                  </style>
-                </head>
-                <body>
-                  <h3>Animated Colors (red to yellow)</h3>
+        body {
+            background-image: linear-gradient(#dfff30, red, purple);
+        }
 
+        p {
+            color: red;
+        }
 
-                  <div id="myDIV"></div>
+        h1 {
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" href="index.css">
+    <title>Random HTML Experiments</title>
+</head>
+<body>
+    <h2><a href="index.html">Bᴀᴄᴋ ᴛᴏ 🏡</a></h2>
+    <h2>Random HTML Experiments!</h2>
 
+    <input type="radio" name="payment" value="CC">These
+    <input type="radio" name="payment" value="DC">Are
+    <input type="radio" name="payment" value="PP">Option
+    <input type="radio" name="payment" value="PP">Buttons!
+    <input type="radio" name="payment" value="PP">😁
 
-                </body>
-              </html>
+    <h1>-----------------------</h1>
 
-              <!DOCTYPE html>
-              <html>
-                <head>
-                  <style>
-                    #myLOL {
+    <input type="checkbox" name="Browser" value="Check">Check
+    <input type="checkbox" name="Browser" value="Boxes">Boxes
+    <input type="checkbox" name="Browser" value="Are">Are
+    <input type="checkbox" name="Browser" value="Fun">Fun
 
-                      animation: mymove 5s infinite;
-                    }
+    <h1>-----------------------</h1>
 
-                    @keyframes mymove {
-                      50% {word-spacing: 50px;}
-                    }
-                  </style>
-                </head>
-                <body>
+    <h3>Enter Password (hidden):</h3>
+    <input type="password" size="25" maxlength="16">
 
-                  <h1> ----------------------- </h1>
+    <h1>-----------------------</h1>
 
+    <input type="button" onclick="alert('Hello World how are you!')" value="Click Me now!">
 
-                  <div id="myLOL">
-                    The spacing of each word is increasing and reducing!
-                  </div>
-                  <h1> ----------------------- </h1>
+    <h1>-----------------------</h1>
 
-                </body>
-              </html>
+    <form action="/action_page.php">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value=""><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value=""><br><br>
+        <input type="button" onclick="alert('Submitted! Please enter again and try!')" value="Submit">
+    </form>
+
+    <h1>-----------------------</h1>
+
+    <a href="https://www.minecraft.net/en-us">
+        <img src="image-(2).png" width="350">
+    </a>
+
+    <h1>-----------------------</h1>
+
+    <h3>Animated Colors (red to yellow)</h3>
+    <div id="myDIV"></div>
+
+    <h1>-----------------------</h1>
+
+    <div id="myLOL">
+        The spacing of each word is increasing and reducing!
+    </div>
+
+    <h1>-----------------------</h1>
+
+    <!-- Drafting ideas for photo gallery animation!:
+         1. Use a carousfel library like Slick, OwlCarousel, or Swiper.js for smooth transitions.
+         2. Implement manual controls (previous/next buttons) to allow users to navigate through photos.
+         3. Add automatic slideshow functionality with a set interval.
+         4. Use CSS animations to create flip or fade effects between images.
+         5. Enable toauch/swipe support for mobile users. KEY!!
+         6. Consider using the <figure> and <figcaption> elements to provide descriptions for each photo found on figma edit
+         7. Ensure responsiveness AND scalability for different screen sizes. Ipad tablet iphone etc
+    -->
+</body>
+</html>
