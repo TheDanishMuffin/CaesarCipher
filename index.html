@@ -1,194 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="index.css">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-
-    .carousel-container {
-      max-width: 100%;
-      margin: auto;
-      overflow: hidden;
-      height: 400px;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-    }
-
-    .slides {
-      display: flex;
-      width: 300%; /* 100% per slide for 3 slides */
-      transition: transform 120s ease;
-    }
-
-    .slide {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      background-position: center;
-      background-size: cover;
-    }
-
-    .carousel-controls {
-      position: relative;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-    }
-
-    .control {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: table+;
-      padding: 2px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .control:hover {
-      background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    .coverflow {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 50px;
-    }
-
-    .coverflow__container {
-      display: flex;
-      width: 70%;
-      justify-content: center;
-      perspective: 1000px;
-      overflow: hidden;
-      border: 1px solid #ccc;
-      padding: 10px;
-      background-color: #fff;
-      border-radius: 10px;
-    }
-
-    .coverflow__image {
-      width: 200px;
-      transition: transform 0.5s, opacity 0.5s;
-      opacity: 0.6;
-      margin: 0 10px;
-    }
-
-    .coverflow__image--active {
-      transform: translateX(0) rotateY(0) scale(1);
-      z-index: 2;
-      opacity: 1;
-    }
-
-    .coverflow__image--previous, .coverflow__image--next {
-      opacity: 0.8;
-    }
-
-    .coverflow__controls {
-      display: flex;
-      justify-content: space-between;
-      width: 100px;
-      margin-top: 20px;
-    }
-
-    .coverflow__button {
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      font-size: 1.5em;
-      border-radius: 50%;
-      transition: background 0.3s;
-    }
-
-    .coverflow__button:hover {
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    .coverflow__title {
-      font-size: 2em;
-      margin-bottom: 20px;
-      color: #555;
-      text-align: center;
-    }
-
-    .coverflow__text {
-      text-align: center;
-      color: #333;
-      font-size: 1em;
-      margin-top: 10px;
-    }
-
-    .coverflow__description {
-      font-size: 1em;
-      margin-top: 10px;
-      color: #777;
-      text-align: center;
-      max-width: 600px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+  <title>Photo Gallery</title>
 </head>
 <body>
-
-<h1>Dinesh's Image Gallery!</h1>
-
-<div class="carousel-container">
-  <input type="radio" id="slide1" name="carousel" checked>
-  <input type="radio" id="slide2" name="carousel">
-  <input type="radio" id="slide3" name="carousel">
-  <div class="slides">
-    <div class="slide" style="background-image: url('PXL_20240620_024649794.jpg');"></div>
-    <div class="slide" style="background-image: url('PXL_20240621_220953895.jpg');"></div>
-    <div class="slide" style="background-image: url('PXL_20240626_214026434.jpg');"></div>
-  </div>
-  <div class="carousel-controls">
-    <label for="slide1" class="control">1</label>
-    <label for="slide2" class="control">2</label>
-    <label for="slide3" class="control">3</label>
-  </div>
-</div>
-
-<div class="coverflow">
-  <h2 class="coverflow__title">Image Gallery</h2>
-  <div class="coverflow__container">
-    <div class="coverflow__item">
-      <img src="PXL_20240620_024649794.jpg" class="coverflow__image coverflow__image--active">
-      <p class="coverflow__text">Waterdrops rest on a clothesline.</p>
+  <div class="coverflow">
+    <div class="coverflow__container">
+      <div class="coverflow__item">
+        <a href="PXL_20240620_024649794.jpg" data-lightbox="gallery" data-title="Waterdrops hang from a clothesline.">
+          <img src="PXL_20240620_024649794.jpg" class="coverflow__image">
+        </a>
+        <p class="coverflow__text">Waterdrops hang from a clothesline.</p>
+      </div>
+      <div class="coverflow__item">
+        <a href="PXL_20240621_220953895.jpg" data-lightbox="gallery" data-title="A seemingly blue moon illuminates the night sky.">
+          <img src="PXL_20240621_220953895.jpg" class="coverflow__image">
+        </a>
+        <p class="coverflow__text">A seemingly blue moon illuminates the night sky.</p>
+      </div>
+      <div class="coverflow__item">
+        <a href="PXL_20240626_214026434.jpg" data-lightbox="gallery" data-title="A Dodge Challenger races along a Dubai freeway.">
+          <img src="PXL_20240626_214026434.jpg" class="coverflow__image">
+        </a>
+        <p class="coverflow__text">A Dodge Challenger races along a Dubai freeway.</p>
+      </div>
+      <div class="coverflow__item">
+        <a href="IMG_0941.jpeg" data-lightbox="gallery" data-title="An orange sunset pictured through a side-view mirror.">
+          <img src="IMG_0941.jpeg" class="coverflow__image">
+        </a>
+        <p class="coverflow__text">An orange sunset pictured through a side-view mirror.</p>
+      </div>
+      <div class="coverflow__item">
+        <a href="https://codehs.com/uploads/8e58aa6d370cdb95e8442a31b9b5dc50" data-lightbox="gallery" data-title="A silhouetted man stands upon the train tracks, looking off into a sun-kissed sky.">
+          <img src="https://codehs.com/uploads/8e58aa6d370cdb95e8442a31b9b5dc50" class="coverflow__image">
+        </a>
+        <p class="coverflow__text">A silhouetted man stands upon the train tracks, looking off into a sun-kissed sky.</p>
+      </div>
     </div>
-    <div class="coverflow__item">
-      <img src="PXL_20240621_220953895.jpg" class="coverflow__image">
-      <p class="coverflow__text">A seemingly blue moon illuminates the night sky.</p>
-    </div>
-    <div class="coverflow__item">
-      <img src="PXL_20240626_214026434.jpg" class="coverflow__image">
-      <p class="coverflow__text">A Dodge Challenger races along a Dubai freeway.</p>
-    </div>
-    <div class="coverflow__item">
-      <img src="IMG_0941.jpeg" class="coverflow__image">
-      <p class="coverflow__text">An orange sunset pictured through a side-view mirror.</p>
-    </div>
-    <div class="coverflow__item">
-      <img src="https://codehs.com/uploads/8e58aa6d370cdb95e8442a31b9b5dc50" class="coverflow__image">
-      <p class="coverflow__text">A silhouetted man stands upon the train tracks, looking off into a sun-kissed sky.</p>
+    <div class="coverflow__controls">
+      <button class="coverflow__button coverflow__button--left">&#10094;</button>
+      <button class="coverflow__button coverflow__button--right">&#10095;</button>
     </div>
   </div>
-  <div class="coverflow__controls">
-    <button class="coverflow__button coverflow__button--left">&#10094;</button>
-    <button class="coverflow__button coverflow__button--right">&#10095;</button>
-  </div>
-</div>
-
-<script src="main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
