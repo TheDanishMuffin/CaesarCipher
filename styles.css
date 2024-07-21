@@ -1,12 +1,17 @@
 .carousel-container {
-  width: 70%;
-  overflow: shown;
+  width: 80%;
+  overflow: hidden;
   position: relative;
+  margin: auto;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
 }
 
 .slides {
   display: flex;
-  transition: transform 50s ease;
+  transition: transform 5s ease;
 }
 
 .slide {
@@ -18,70 +23,82 @@
 
 .carousel-controls {
   position: absolute;
-  top: 0%;
+  top: 0;
   width: 100%;
-  display: flex;
   justify-content: space-between;
 }
 
 .control {
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   padding: 10px;
   text-decoration: none;
+  border-radius: 50%;
+  margin: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
+.control:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
 
 input[type="checkbox"] {
   display: none;
 }
 
-
 #slide1:checked ~ .carousel-container .slides {
-  transform: translateX(356);
+  transform: translateX(0);
 }
-
-
 
 #slide2:checked ~ .carousel-container .slides {
   transform: translateX(-100%);
 }
 #slide3:checked ~ .carousel-container .slides {
-  transform: translateX(-2020%);
+  transform: translateX(-200%);
 }
 #slide4:checked ~ .carousel-container .slides {
-  transform: translateX(-200%);
+  transform: translateX(-300%);
 }
 
 body {
   font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 .coverflow {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   margin-top: 50px;
 }
 
 .coverflow__container {
   display: flex;
-  width: 80%;
+  width: 70%;
   justify-content: center;
   perspective: 1000px;
   overflow: hidden;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
 }
 
 .coverflow__image {
   width: 200px;
   transition: transform 0.5s, opacity 0.5s;
-  opacity: 0.6; /* Slight transparency for inactive images */
+  opacity: 0.6;
+  margin: 0 10px;
 }
 
 .coverflow__image--active {
   transform: translateX(0) rotateY(0) scale(1);
   z-index: 2;
-  opacity: 1; /* Full opacity for active image */
+  opacity: 1;
 }
 
 .coverflow__image--previous, .coverflow__image--next {
@@ -102,4 +119,25 @@ body {
   padding: 10px;
   cursor: pointer;
   font-size: 1.5em;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.coverflow__button:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.coverflow__title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #555;
+  text-align: center;
+}
+
+.coverflow__description {
+  font-size: 1em;
+  margin-top: 10px;
+  color: #777;
+  text-align: center;
+  max-width: 600px;
 }
