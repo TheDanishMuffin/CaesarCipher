@@ -9,44 +9,84 @@
   <title>Photo Gallery</title>
 </head>
 <body>
-  <div class="coverflow">
-    <div class="coverflow__container">
-      <div class="coverflow__item">
-        <a href="PXL_20240620_024649794.jpg" data-lightbox="gallery" data-title="Waterdrops hang from a clothesline.">
-          <img src="PXL_20240620_024649794.jpg" class="coverflow__image">
-        </a>
-        <p class="coverflow__text">Waterdrops hang from a clothesline.</p>
+  <header>
+    <nav>
+      <ul class="navbar">
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <h1>My Photo Gallery</h1>
+  </header>
+
+  <main>
+    <section id="gallery" class="coverflow">
+      <h2>Gallery</h2>
+      <div class="coverflow__container">
+        <div class="coverflow__item">
+          <a href="PXL_20240620_024649794.jpg" data-lightbox="gallery" data-title="Waterdrops hang from a clothesline.">
+            <img src="PXL_20240620_024649794.jpg" class="coverflow__image" alt="Waterdrops hang from a clothesline.">
+          </a>
+        </div>
+        <div class="coverflow__item">
+          <a href="PXL_20240621_220953895.jpg" data-lightbox="gallery" data-title="A seemingly blue moon illuminates the night sky.">
+            <img src="PXL_20240621_220953895.jpg" class="coverflow__image" alt="A seemingly blue moon illuminates the night sky.">
+          </a>
+        </div>
+        <div class="coverflow__item">
+          <a href="PXL_20240626_214026434.jpg" data-lightbox="gallery" data-title="A Dodge Challenger races along a Dubai freeway.">
+            <img src="PXL_20240626_214026434.jpg" class="coverflow__image" alt="A Dodge Challenger races along a Dubai freeway.">
+          </a>
+        </div>
+        <div class="coverflow__item">
+          <a href="IMG_0941.jpeg" data-lightbox="gallery" data-title="An orange sunset pictured through a side-view mirror.">
+            <img src="IMG_0941.jpeg" class="coverflow__image" alt="An orange sunset pictured through a side-view mirror.">
+          </a>
+        </div>
+        <div class="coverflow__item">
+          <a href="https://codehs.com/uploads/8e58aa6d370cdb95e8442a31b9b5dc50" data-lightbox="gallery" data-title="A silhouetted man stands upon the train tracks, looking off into a sun-kissed sky.">
+            <img src="https://codehs.com/uploads/8e58aa6d370cdb95e8442a31b9b5dc50" class="coverflow__image" alt="A silhouetted man stands upon the train tracks, looking off into a sun-kissed sky.">
+          </a>
+        </div>
+        <!-- Add more images here -->
+        <div class="coverflow__item">
+          <a href="image6.jpg" data-lightbox="gallery" data-title="Image 6 description.">
+            <img src="image6.jpg" class="coverflow__image" alt="Image 6 description.">
+          </a>
+        </div>
+        <div class="coverflow__item2">
+          <a href="image7.jpg" data-lightbox="galleryupdate" data-title="Image 7 description.">
+            <img src="image7.jpg" class="coverflow__image" alt="Image 7 description.">
+          </a>
+        </div>
       </div>
-      <div class="coverflow__item">
-        <a href="PXL_20240621_220953895.jpg" data-lightbox="gallery" data-title="A seemingly blue moon illuminates the night sky.">
-          <img src="PXL_20240621_220953895.jpg" class="coverflow__image">
-        </a>
-        <p class="coverflow__text">A seemingly blue moon illuminates the night sky.</p>
+      <div class="coverflow__controls">
+        <button class="coverflow__button coverflow__button--left">&#10094;</button>
+        <button class="coverflow__button coverflow__button--right">&#10095;</button>
       </div>
-      <div class="coverflow__item">
-        <a href="PXL_20240626_214026434.jpg" data-lightbox="gallery" data-title="A Dodge Challenger races along a Dubai freeway.">
-          <img src="PXL_20240626_214026434.jpg" class="coverflow__image">
-        </a>
-        <p class="coverflow__text">A Dodge Challenger races along a Dubai freeway.</p>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>Welcome to my photo gallery! Here you will find a collection of my favorite photographs taken over the years. Photography is a passion I would like to puirsue.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>If you would like to get in touch, please follow me on social media or send an email to <a href="mailto:example@example.com">example@example.com</a>.</p>
+      <div class="social-media">
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+        <a href="https://facebook.com" target="_blank">Facebook</a>
       </div>
-      <div class="coverflow__item">
-        <a href="IMG_0941.jpeg" data-lightbox="gallery" data-title="An orange sunset pictured through a side-view mirror.">
-          <img src="IMG_0941.jpeg" class="coverflow__image">
-        </a>
-        <p class="coverflow__text">An orange sunset pictured through a side-view mirror.</p>
-      </div>
-      <div class="coverflow__item">
-        <a href="https://codehs.com/uploads/8e58aa6d370cdb95e8442a31b9b5dc50" data-lightbox="gallery" data-title="A silhouetted man stands upon the train tracks, looking off into a sun-kissed sky.">
-          <img src="https://codehs.com/uploads/8e58aa6d370cdb95e8442a31b9b5dc50" class="coverflow__image">
-        </a>
-        <p class="coverflow__text">A silhouetted man stands upon the train tracks, looking off into a sun-kissed sky.</p>
-      </div>
-    </div>
-    <div class="coverflow__controls">
-      <button class="coverflow__button coverflow__button--left">&#10094;</button>
-      <button class="coverflow__button coverflow__button--right">&#10095;</button>
-    </div>
-  </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 My Photo Gallery.</p>
+  </footer>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
   <script src="main.js"></script>
 </body>
