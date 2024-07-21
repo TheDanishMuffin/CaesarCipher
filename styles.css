@@ -1,17 +1,17 @@
 .carousel-container {
   width: 70%;
-  overflow: hidden;
+  overflow: shown;
   position: relative;
 }
 
 .slides {
   display: flex;
-  transition: transform 1s ease;
+  transition: transform 50s ease;
 }
 
 .slide {
   min-width: 100%;
-  height: 400px;
+  height: 350px;
   background-size: cover;
   background-position: center;
 }
@@ -32,19 +32,74 @@
 }
 
 
-input[type="radio"] {
+input[type="checkbox"] {
   display: none;
 }
 
 
 #slide1:checked ~ .carousel-container .slides {
-  transform: translateX(0);
+  transform: translateX(356);
 }
+
+
 
 #slide2:checked ~ .carousel-container .slides {
   transform: translateX(-100%);
 }
-
 #slide3:checked ~ .carousel-container .slides {
+  transform: translateX(-2020%);
+}
+#slide4:checked ~ .carousel-container .slides {
   transform: translateX(-200%);
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.coverflow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.coverflow__container {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.coverflow__image {
+  width: 200px;
+  transition: transform 0.5s, opacity 0.5s;
+  opacity: 0.6; /* Slight transparency for inactive images */
+}
+
+.coverflow__image--active {
+  transform: translateX(0) rotateY(0) scale(1);
+  z-index: 2;
+  opacity: 1; /* Full opacity for active image */
+}
+
+.coverflow__image--previous, .coverflow__image--next {
+  opacity: 0.8;
+}
+
+.coverflow__controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  margin-top: 20px;
+}
+
+.coverflow__button {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1.5em;
 }
