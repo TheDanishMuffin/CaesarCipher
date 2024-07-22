@@ -1,43 +1,70 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
   const cells = document.querySelectorAll('.cell');
-  let currentPlayer = 'X';
-  let board = ['', '', '', '', '', '', '', '', ''];
+  const playerX = 'X';
+  const playerO = 'O';
+  let currentPlayer = playerX;
+  let board = Array(9).fill(null);
+  let playerXScore = 0;
+  let playerOScore = 0;
+
+  const playerXScoreElement = document.getElementById('playerX-score');
+  const playerOScoreElement = document.getElementById('playerO-score');
 
   cells.forEach(cell => {
     cell.addEventListener('click', () => {
       const index = cell.getAttribute('data-index');
-      if (board[index] === '') {
-        board[index] = currentPlayer;
-        cell.textContent = currentPlayer;
-        if (checkWinner(currentPlayer)) {
-          alert(currentPlayer + ' wins!');
-          resetBoard();
-        } else if (board.every(cell => cell !== '')) {
-          alert('It\'s a tie!');
-          resetBoard();
-        } else {
-          currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      if (!board[index] && currentPlayer === playerX) {
+        makeMove(index, playerX);
+        if (!checkWinner() && !board.every(cell => cell !== null)) {
+          currentPlayer = playerO;
+          makeBestMove();
+          checkWinner();
+          currentPlayer = playerX;
         }
       }
     });
   });
 
-  function checkWinner(player) {
-    const winPatterns = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8],
-      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-      [0, 4, 8], [2, 4, 6]
-    ];
-
-    return winPatterns.some(pattern => {
-      return pattern.every(index => board[index] === player);
-    });
+  function makeMove(index, player) {
+    board[index] = player;
+    cells[index].textContent = player;
   }
 
-  function resetBoard() {
-    board = ['', '', '', '', '', '', '', '', ''];
-    cells.forEach(cell => cell.textContent = '');
+  function makeBestMove() {
+    let bestScore = -Infinity;
+    let move;
+    for (let i = 0; i < board.length; i++) {
+      if (!board[i]) {
+        board[i] = playerO;
+        let score = minimax(board, 0, false);
+        board[i] = null;
+        if (score > bestScore) {
+          bestScore = score;
+          move = i;
+        }
+      }
+    }
+    makeMove(move, playerO);
   }
 
-  window.resetGame = resetBoard;
-});
+  function minimax(board, depth, isMaximizing) {
+    const scores = {
+      X: -1,
+      O: 1,
+      tie: 0
+    };
+    let result = checkWinner(true);
+    if (result !== null) {
+      return scores[result];
+    }
+
+    if (isMaximizing) {
+      let bestScore = -Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (!board[i]) {
+          board[i] = playerO;
+          let score = minimax(board, depth + 1, false);
+          board[i] = null;
+          bestScore = Math.max(score, bestScore);
+        }
+      }
