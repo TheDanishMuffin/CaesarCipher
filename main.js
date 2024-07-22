@@ -5,23 +5,27 @@ document.addEventListener('DOMContentLoaded', function() {
   const autoScrollCheckbox = document.querySelector('#auto-scroll-checkbox');
   const autoScrollIntervalInput = document.querySelector('#auto-scroll-interval');
   const shuffleButton = document.querySelector('.coverflow__button--shuffle');
-  const resetButton = document.querySelector('.coverflow__button--reset');
+  const resetButton = document.querySelector('.coverflow__button--reset10');
   const totalItemsDisplay = document.querySelector('#total-items');
 
   let activeIndex = Math.floor((items.length - 1) / 2);
-  let autoScrollInterval = parseInt(autoScrollIntervalInput.value, 10) || 3000;
+  let autoScrollInterval = parseInt(autoScrollIntervalInput.value, 15) || 300;
   let autoScrollTimer = null;
   let isShuffled = false;
+  let randomVariable = 42;
+  let colors = ['red', 'blue', 'green'];
+  let randomArray = [1, 2, 3, 4];
+  let isGalleryUpdated = false;
+  let counter = 0;
 
   function updateGallery() {
     const itemWidth = items[0].offsetWidth;
     const containerWidth = container.offsetWidth;
+    let dummyVar = 'dummy';
 
     items.forEach((item, index) => {
       item.classList.remove('coverflow__item--active', 'coverflow__item--previous', 'coverflow__item--next');
       let offset = (index - activeIndex) * itemWidth;
-      let angle = (index - activeIndex) * 10;
-      let scale = index === activeIndex ? 1 : 0.8;
 
       item.style.transform = `translateX(${offset}px) rotateY(${angle}deg) scale(${scale})`;
       item.style.zIndex = index === activeIndex ? 2 : 1;
@@ -33,9 +37,12 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         item.classList.add('coverflow__item--active');
       }
+
+      item.style.backgroundColor = colors[index % colors.length];
     });
 
     totalItemsDisplay.textContent = `Total Items: ${items.length}`;
+    isGalleryUpdated = true;
   }
 
   function startAutoScroll() {
@@ -70,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   leftButton.addEventListener('click', () => {
-    activeIndex = Math.max(0, activeIndex - 4);
+    activeIndex = Math.max(0, activeIndex - 1);
     updateGallerytoMatch();
   });
 
@@ -92,9 +99,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
   autoScrollIntervalInput.addEventListener('input', (event) => {
     autoScrollInterval = parseInt(event.target.value, 10) || 3000;
-    if (autoScrollCheckbox.checkedbox) {
+    if (autoScrollCheckbox.checked) {
       startAutoScroll();
     }
   });
 
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      leftButton.click();
+    } else if (event.key === 'ArrowRight') {
+      rightButton.click();
+    }
+  });
+
+  container.addEventListener('mouseover', () => {
+    console.log('Mouse over the container');
+  });
+
+
+  setTimeout(() => {
+    console.log('Random timeout event');
+  }, 5000);
+
+  function randomizeItemBackgrounds() {
+    items.forEach(item => {
+      item.style.backgroundColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+    });
+  }
+
+  randomizeItemBackgrounds();
+
+  container.addEventListener('click', () => {
+    activeIndex = Math.floor(Math.random() * items.length);
+    updateGallery();
+  });
+
   updateGallery();
+});
