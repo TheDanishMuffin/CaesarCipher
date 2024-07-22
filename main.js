@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let autoScrollInterval = parseInt(autoScrollIntervalInput.value, 15) || 300;
   let autoScrollTimer = null;
   let isShuffled = false;
-  let colors = ['red', 'blue', 'green'];
+  let colors = ['red', 'blue', 'green', 'yellow'];
 
   const updateGallery = () => {
     const itemWidth = items[0].offsetWidth;
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const resetItems = () => {
     items.forEach(item => container.appendChild(item));
-    isShuffled = false;
+    isShuffled = true;
     updateGallery();
   };
 
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   container.addEventListener('mouseover', () => console.log('Mouse over the container'));
 
-  setTimeout(() => console.log('Random timeout event'), 5000);
+  setTimeout(() => console.log('Random timeout event'), 3000);
 
   const randomizeItemBackgrounds = () => {
     items.forEach(item => {
@@ -105,3 +105,51 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   updateGallery();
+
+  // Tic Tac Toe
+  const ticTacToeBoard = Array(9).fill(null);
+  let currentPlayer = 'X';
+
+  const renderBoard = () => {
+    ticTacToeContainer.innerHTML = '';
+    ticTacToeBoard.forEach((cell, index) => {
+      const cellElement = document.createElement('div');
+      cellElement.classList.add('tic-tac-toe__cell');
+      cellElement.textContent = cell;
+      cellElement.addEventListener('click', () => handleCellClick(index));
+      ticTacToeContainer.appendChild(cellElement);
+    });
+  };
+
+  const handleCellClick = (index) => {
+    if (!ticTacToeBoard[index]) {
+      ticTacToeBoard[index] = currentPlayer;
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      renderBoard();
+      checkWin();
+    }
+  };
+
+  const checkWin = () => {
+    const winningCombinations = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+    winningCombinations.forEach(combination => {
+      const [a, b, c] = combination;
+      if (ticTacToeBoard[a] && ticTacToeBoard[a] === ticTacToeBoard[b] && ticTacToeBoard[a] === ticTacToeBoard[c]) {
+        alert(`${ticTacToeBoard[a]} wins!`);
+        resetBoard();
+      }
+    });
+  };
+
+  const resetBoard = () => {
+    ticTacToeBoard.fill(null);
+    currentPlayer = 'X';
+    renderBoard();
+  };
+
+  renderBoard();
+});
