@@ -1,172 +1,192 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fafafa;
-  color: #222;
+  font-family: 'Barlow', sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
 }
 
-header {
-  background-color: #444;
-  color: #fff;
-  padding: 15px;
-  text-align: left;
-}
-
-.navbar {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: space-around;
-  background-color: #333;
-}
-
-.navbar li {
-  display: block;
-}
-
-.navbar a {
-  color: #fff;
-  text-decoration: none;
-  padding: 10px;
-}
-
-.navbar a:hover {
-  background-color: #555;
-}
-
-h1 {
-  margin: 20px;
-  font-size: 2.5em;
-}
-
-main {
-  flex: 1;
-  padding: 30px;
-}
-
 h2 {
-  font-weight: bold;
-  color: #666;
-  text-align: left;
-  margin: 30px 0;
+  font-weight: 700;
+  color: #444;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .coverflow {
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  background: #eaeaea;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -100px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 90%;
+  box-sizing: border-box;
 }
 
 .coverflow__container {
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  perspective: 1200px;
-  overflow: visible;
+  justify-content: flex; /* adjusted this and could see the first pic without zooming out */
+  perspective: 1000px;
+  overflow: hidden;
+  padding: 25px; /* Add padding to accommodate edge items */
+  box-sizing: border-box;
 }
 
 .coverflow__item {
-  display: block;
-  transition: transform 0.6s, opacity 0.6s;
-  opacity: 0.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.5s, opacity 0.5s;
+  opacity: 0.6;
+  position: relative;
 }
 
 .coverflow__image {
-  width: 270px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  width: 290px;
+  max-width: 100%;
+  min-width: 300px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+.coverflow__text {
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
+  color: #555;
 }
 
 .coverflow__item--active {
-  transform: translateX(0) rotateY(0) scale(1.1);
-  z-index: 1;
+  transform: translateX(0) rotateY(0) scale(1);
+  z-index: 2;
   opacity: 1;
 }
 
 .coverflow__item--previous, .coverflow__item--next {
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .coverflow__controls {
   display: flex;
-  justify-content: space-around;
-  width: 100%;
+  justify-content: space-between;
+  width: 100px;
+  margin-top: 10px;
 }
 
 .coverflow__button {
-  background: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
   border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1.5em;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.coverflow__button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Overlay Effect */
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: white;
   font-size: 20px;
-  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
-footer {
-  background-color: #222;
-  color: #ddd;
-  text-align: left;
-  padding: 15px;
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.tic-tac-toe {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 40px auto;
-  width: 300px;
+.lightbox-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 550px;
 }
 
-.tic-tac-toe__board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 5px;
-}
-
-.tic-tac-toe__cell {
-  width: 100px;
-  height: 100px;
-  background-color: #fff;
-  border: 2px solid #bbb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
-  cursor: pointer;
-  transition: background-color 0.4s;
-}
-
-.tic-tac-toe__cell:hover {
-  background-color: #e0e0e0;
-}
-
-.tic-tac-toe__cell--x {
-  color: #d32f2f;
-}
-
-.tic-tac-toe__cell--o {
-  color: #1976d2;
-}
-
-#restartButton {
-  background-color: #444;
-  color: #fff;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  color: white;
+  font-size: 35px;
   font-weight: bold;
-  margin-top: 25px;
+  transition: 0.3s;
 }
 
-#restartButton:hover {
-  background-color: #666;
+.lightbox-close:hover,
+.lightbox-close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .coverflow {
+    margin-top: -50px;
+    padding: 10px;
+  }
+
+  .coverflow__controls {
+    width: 80px;
+  }
+
+  .coverflow__button {
+    font-size: 1.2em;
+    padding: 8px;
+  }
 }
