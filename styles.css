@@ -47,14 +47,14 @@ h2 {
   align-items: center;
   transition: transform 0.5s, opacity 0.5s;
   opacity: 0.6;
-  position: relative;
+  position: relative; /* Ensure overlay positioning is correct */
 }
 
 .coverflow__image {
   width: 290px;
   max-width: 100%;
-  min-width: 300px;
-  height: auto;
+  min-width: 300px; /* Set a minimum width */
+  height: auto; /* Maintain aspect ratio */
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   cursor: pointer;
@@ -175,6 +175,7 @@ h2 {
   cursor: pointer;
 }
 
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .coverflow {
     margin-top: -50px;
@@ -189,4 +190,100 @@ h2 {
     font-size: 1.2em;
     padding: 8px;
   }
+}
+
+
+
+/* Tic Tac Toe styles */
+.tic-tac-toe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  border: 2px solid #333;
+  cursor: pointer;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.tic-tac-toe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 10px;
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  background: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.score-board {
+  margin-top: 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.home-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
