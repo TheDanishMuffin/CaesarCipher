@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   const cells = document.querySelectorAll('.cell');
   const playerX = 'X';
   const playerO = 'O';
@@ -6,28 +6,44 @@ document.addEventListener('DOMContentLoaded', function () {
   let board = Array(9).fill(null);
   let playerXScore = 0;
   let playerOScore = 0;
+  let moveHistory = [];
 
   const playerXScoreElement = document.getElementById('playerX-score');
   const playerOScoreElement = document.getElementById('playerO-score');
+  const resetButton = document.getElementById('reset-button');
+  const undoButton = document.getElementById('undo-button');
+  const statusMessage = document.getElementById('status-message');
 
   cells.forEach(cell => {
-    cell.addEventListener('click', () => {
-      const index = cell.getAttribute('data-index');
-      if (!board[index] && currentPlayer === playerX) {
-        makeMove(index, playerX);
-        if (!checkWinner() && !board.every(cell => cell !== null)) {
-          currentPlayer = playerO;
+    cell.addEventListener('click', handleCellClick);
+  });
+
+  resetButton.addEventListener('click', resetGame);
+  undoButton.addEventListener('click', undoMove);
+
+  function handleCellClick(event) {
+    const cell = event.target;
+    const index = cell.getAttribute('data-index');
+
+    if (!board[index] && currentPlayer === playerX) {
+      makeMove(index, playerX);
+      if (!checkWinner() && !isBoardFull()) {
+        currentPlayer = playerO;
+        updateStatusMessage();
+        setTimeout(() => {
           makeBestMove();
           checkWinner();
           currentPlayer = playerX;
-        }
+          updateStatusMessage();
+        }, 500);
       }
-    });
-  });
+    }
+  }
 
   function makeMove(index, player) {
     board[index] = player;
     cells[index].textContent = player;
+    moveHistory.push({ index, player });
   }
 
   function makeBestMove() {
@@ -53,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
       O: 1,
       tie: 0
     };
-    let result = checkWinner(true);
+
+    const result = checkWinner(true);
     if (result !== null) {
       return scores[result];
     }
@@ -107,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    if (board.every(cell => cell !== null)) {
+    if (isBoardFull()) {
       if (!returnResult) {
         alert('Draw!');
         resetGame();
@@ -116,6 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     return null;
+  }
+
+  function isBoardFull() {
+    return board.every(cell => cell !== null);
   }
 
   function updateScore(winner) {
@@ -132,5 +153,31 @@ document.addEventListener('DOMContentLoaded', function () {
     board.fill(null);
     cells.forEach(cell => (cell.textContent = ''));
     currentPlayer = playerX;
+    moveHistory = [];
+    updateStatusMessage();
+  }
+
+  function undoMove() {
+    if (moveHistory.length > 0) {
+      const lastMove = moveHistory.pop();
+      board[lastMove.index] = null;
+      cells[lastMove.index].textContent = '';
+      currentPlayer = lastMove.player === playerX ? playerO : playerX;
+      updateStatusMessage();
+    }
+  }
+
+  function updateStatusMessage() {
+    statusMessage.textContent = `Current Player: ${currentPlayer}`;
+  }
+
+  function highlightWinningCells(combination) {
+    combination.forEach(index => {
+      cells[index].classList.add('highlight');
+    });
+  }
+
+  function clearWinningHighlights() {
+    cells.forEach(cell => cell.classList.remove('highlight'));
   }
 });
