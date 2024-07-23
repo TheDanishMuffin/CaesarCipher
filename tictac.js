@@ -68,3 +68,69 @@ document.addEventListener('DOMContentLoaded', function () {
           bestScore = Math.max(score, bestScore);
         }
       }
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (!board[i]) {
+          board[i] = playerX;
+          let score = minimax(board, depth + 1, true);
+          board[i] = null;
+          bestScore = Math.min(score, bestScore);
+        }
+      }
+      return bestScore;
+    }
+  }
+
+  function checkWinner(returnResult = false) {
+    const winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    for (let combination of winningCombinations) {
+      const [a, b, c] = combination;
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        if (!returnResult) {
+          alert(`${board[a]} wins!`);
+          updateScore(board[a]);
+          resetGame();
+        }
+        return board[a];
+      }
+    }
+
+    if (board.every(cell => cell !== null)) {
+      if (!returnResult) {
+        alert('Draw!');
+        resetGame();
+      }
+      return 'tie';
+    }
+
+    return null;
+  }
+
+  function updateScore(winner) {
+    if (winner === playerX) {
+      playerXScore++;
+      playerXScoreElement.textContent = playerXScore;
+    } else if (winner === playerO) {
+      playerOScore++;
+      playerOScoreElement.textContent = playerOScore;
+    }
+  }
+
+  function resetGame() {
+    board.fill(null);
+    cells.forEach(cell => (cell.textContent = ''));
+    currentPlayer = playerX;
+  }
+});
