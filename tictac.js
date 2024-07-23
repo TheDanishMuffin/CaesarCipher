@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const playerXScoreElement = document.getElementById('playerX-score');
   const playerOScoreElement = document.getElementById('playerO-score');
+  const difficultySelector = document.getElementById('difficulty');
 
   cells.forEach(cell => {
     cell.addEventListener('click', () => {
@@ -17,9 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
         makeMove(index, playerX);
         if (!checkWinner() && !board.every(cell => cell !== null)) {
           currentPlayer = playerO;
-          makeBestMove();
-          checkWinner();
-          currentPlayer = playerX;
+          setTimeout(() => {
+            makeBestMove();
+            checkWinner();
+            currentPlayer = playerX;
+          }, 500);
         }
       }
     });
@@ -31,6 +34,26 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function makeBestMove() {
+    const difficulty = difficultySelector.value;
+    if (difficulty === 'easy') {
+      makeRandomMove();
+    } else {
+      makeMinimaxMove();
+    }
+  }
+
+  function makeRandomMove() {
+    let availableMoves = [];
+    for (let i = 0; i < board.length; i++) {
+      if (!board[i]) {
+        availableMoves.push(i);
+      }
+    }
+    const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    makeMove(randomMove, playerO);
+  }
+
+  function makeMinimaxMove() {
     let bestScore = -Infinity;
     let move;
     for (let i = 0; i < board.length; i++) {
@@ -100,9 +123,11 @@ document.addEventListener('DOMContentLoaded', function () {
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         if (!returnResult) {
           highlightWinningCells(combination);
-          alert(`${board[a]} wins!`);
-          updateScore(board[a]);
-          resetGame();
+          setTimeout(() => {
+            alert(`${board[a]} wins!`);
+            updateScore(board[a]);
+            resetGame();
+          }, 1000);
         }
         return board[a];
       }
@@ -110,8 +135,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (board.every(cell => cell !== null)) {
       if (!returnResult) {
-        alert('Draw!');
-        resetGame();
+        setTimeout(() => {
+          alert('Draw!');
+          resetGame();
+        }, 1000);
       }
       return 'tie';
     }
@@ -120,7 +147,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function highlightWinningCells(combination) {
-    combination.forEach(index => cells[index].classList.add('highlight'));
+    combination.forEach(index => {
+      cells[index].style.backgroundColor = 'yellow';
+    });
   }
 
   function updateScore(winner) {
@@ -137,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
     board.fill(null);
     cells.forEach(cell => {
       cell.textContent = '';
-      cell.classList.remove('highlight');
+      cell.style.backgroundColor = '';
     });
     currentPlayer = playerX;
   }
