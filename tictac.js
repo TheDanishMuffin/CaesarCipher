@@ -6,10 +6,15 @@ document.addEventListener('DOMContentLoaded', function () {
   let board = Array(9).fill(null);
   let playerXScore = 0;
   let playerOScore = 0;
+  let history = [];
+  let redoStack = [];
 
   const playerXScoreElement = document.getElementById('playerX-score');
   const playerOScoreElement = document.getElementById('playerO-score');
   const difficultySelector = document.getElementById('difficulty');
+
+  document.getElementById('undo').addEventListener('click', undoMove);
+  document.getElementById('redo').addEventListener('click', redoMove);
 
   cells.forEach(cell => {
     cell.addEventListener('click', () => {
@@ -32,6 +37,33 @@ document.addEventListener('DOMContentLoaded', function () {
   function makeMove(index, player) {
     board[index] = player;
     cells[index].textContent = player;
+    history.push([...board]);
+    redoStack = [];
+  }
+
+  function undoMove() {
+    if (history.length > 1) {
+      redoStack.push(history.pop());
+      board = history[history.length - 1];
+      updateBoard();
+      currentPlayer = currentPlayer === playerX ? playerO : playerX;
+    }
+  }
+
+  function redoMove() {
+    if (redoStack.length > 0) {
+      history.push(redoStack.pop());
+      board = history[history.length - 1];
+      updateBoard();
+      currentPlayer = currentPlayer === playerX ? playerO : playerX;
+    }
+  }
+
+  function updateBoard() {
+    cells.forEach((cell, index) => {
+      cell.textContent = board[index];
+      cell.style.backgroundColor = '';
+    });
   }
 
   function makeBestMove() {
@@ -57,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function makeMediumMove() {
-
     if (Math.random() < 0.5) {
       makeRandomMove();
     } else {
@@ -208,5 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
       cell.style.backgroundColor = '';
     });
     currentPlayer = playerX;
+    history = [];
+    redoStack = [];
   }
 });
