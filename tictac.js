@@ -13,13 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetButton = document.getElementById('reset-button');
   const undoButton = document.getElementById('undo-button');
   const statusMessage = document.getElementById('status-message');
+  const gameOverMessage = document.getElementById('game-over-message');
+  const restartButton = document.getElementById('restart-button');
 
   cells.forEach(cell => {
     cell.addEventListener('click', handleCellClick);
   });
 
-  resetButton.addEventListener('click', resetGame);
+  resetButton.addEventListener('click', resetScores);
   undoButton.addEventListener('click', undoMove);
+  restartButton.addEventListener('click', resetGame);
 
   function handleCellClick(event) {
     const cell = event.target;
@@ -32,9 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStatusMessage();
         setTimeout(() => {
           makeBestMove();
-          checkWinner();
-          currentPlayer = playerX;
-          updateStatusMessage();
+          if (!checkWinner() && !isBoardFull()) {
+            currentPlayer = playerX;
+            updateStatusMessage();
+          }
         }, 500);
       }
     }
@@ -116,9 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const [a, b, c] = combination;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         if (!returnResult) {
-          alert(`${board[a]} wins!`);
+          displayGameOverMessage(`${board[a]} wins!`);
           updateScore(board[a]);
-          resetGame();
+          highlightWinningCells(combination);
         }
         return board[a];
       }
@@ -126,8 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isBoardFull()) {
       if (!returnResult) {
-        alert('Draw!');
-        resetGame();
+        displayGameOverMessage('Draw!');
       }
       return 'tie';
     }
@@ -151,10 +154,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function resetGame() {
     board.fill(null);
-    cells.forEach(cell => (cell.textContent = ''));
+    cells.forEach(cell => {
+      cell.textContent = '';
+      cell.classList.remove('highlight');
+    });
     currentPlayer = playerX;
     moveHistory = [];
     updateStatusMessage();
+    gameOverMessage.textContent = '';
+  }
+
+  function resetScores() {
+    playerXScore = 0;
+    playerOScore = 0;
+    playerXScoreElement.textContent = playerXScore;
+    playerOScoreElement.textContent = playerOScore;
+    resetGame();
   }
 
   function undoMove() {
@@ -176,8 +191,11 @@ document.addEventListener('DOMContentLoaded', () => {
       cells[index].classList.add('highlight');
     });
   }
+combos = [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
 
-  function clearWinningHighlights() {
-    cells.forEach(cell => cell.classList.remove('highlight'));
+  function displayGameOverMessage(message) {
+    gameOverMessage.textContent = message;
   }
 });
