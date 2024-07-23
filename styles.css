@@ -37,7 +37,7 @@ h2 {
   justify-content: flex; /* adjusted this and could see the first pic without zooming out */
   perspective: 1000px;
   overflow: hidden;
-  padding: 25px; /* Add padding to accommodate edge items */
+  padding: 25px; /* change this padding when the gallery glithces :( */
   box-sizing: border-box;
 }
 
@@ -53,8 +53,8 @@ h2 {
 .coverflow__image {
   width: 290px;
   max-width: 100%;
-  min-width: 300px; /* Set a minimum width */
-  height: auto; /* Maintain aspect ratio */
+  min-width: 300px; /* DO NOT CHANGE */
+  height: auto; /* chjange to manual if image is outside container */
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   cursor: pointer;
@@ -287,3 +287,61 @@ body {
   font-size: 16px;
   cursor: pointer;
 }
+
+.difficulty-selector {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.difficulty-selector label {
+  margin-right: 10px;
+}
+
+.difficulty-selector select {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.tic-tac-toe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.score-board {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.difficulty-selector {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.difficulty-selector label {
+  margin-right: 10px;
+}
+
+.difficulty-selector select {
+  padding:
+
