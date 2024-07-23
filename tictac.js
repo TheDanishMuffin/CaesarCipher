@@ -20,8 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
           currentPlayer = playerO;
           setTimeout(() => {
             makeBestMove();
-            checkWinner();
-            currentPlayer = playerX;
+            if (!checkWinner()) {
+              currentPlayer = playerX;
+            }
           }, 500);
         }
       }
@@ -37,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const difficulty = difficultySelector.value;
     if (difficulty === 'easy') {
       makeRandomMove();
+    } else if (difficulty === 'medium') {
+      makeMediumMove();
     } else {
       makeMinimaxMove();
     }
@@ -51,6 +54,42 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
     makeMove(randomMove, playerO);
+  }
+
+  function makeMediumMove() {
+
+    if (Math.random() < 0.5) {
+      makeRandomMove();
+    } else {
+      let moveMade = false;
+      for (let i = 0; i < board.length; i++) {
+        if (!board[i]) {
+          board[i] = playerO;
+          if (checkWinner(true) === playerO) {
+            makeMove(i, playerO);
+            moveMade = true;
+            break;
+          }
+          board[i] = null;
+        }
+      }
+      if (!moveMade) {
+        for (let i = 0; i < board.length; i++) {
+          if (!board[i]) {
+            board[i] = playerX;
+            if (checkWinner(true) === playerX) {
+              makeMove(i, playerO);
+              moveMade = true;
+              break;
+            }
+            board[i] = null;
+          }
+        }
+      }
+      if (!moveMade) {
+        makeRandomMove();
+      }
+    }
   }
 
   function makeMinimaxMove() {
