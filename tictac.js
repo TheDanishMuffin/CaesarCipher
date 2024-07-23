@@ -1,43 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
   const cells = document.querySelectorAll('.cell');
+  let board = Array(9).fill(null);
   const playerX = 'X';
   const playerO = 'O';
   let currentPlayer = playerX;
-  let board = Array(9).fill(null);
   let playerXScore = 0;
   let playerOScore = 0;
-  let moveHistory = [];
 
   const playerXScoreElement = document.getElementById('playerX-score');
   const playerOScoreElement = document.getElementById('playerO-score');
   const resetButton = document.getElementById('reset-button');
   const undoButton = document.getElementById('undo-button');
   const statusMessage = document.getElementById('status-message');
-  const gameOverMessage = document.getElementById('game-over-message');
-  const restartButton = document.getElementById('restart-button');
+  const historyContainer = document.getElementById('history-container');
+  let moveHistory = [];
 
-  cells.forEach(cell => {
-    cell.addEventListener('click', handleCellClick);
-  });
-
-  resetButton.addEventListener('click', resetScores);
+  cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+  resetButton.addEventListener('click', resetGame);
   undoButton.addEventListener('click', undoMove);
-  restartButton.addEventListener('click', resetGame);
 
   function handleCellClick(event) {
     const cell = event.target;
-    const index = cell.getAttribute('data-index');
-
+    const index = parseInt(cell.dataset.index);
     if (!board[index] && currentPlayer === playerX) {
-      makeMove(index, playerX);
+      makeMove(index, currentPlayer);
       if (!checkWinner() && !isBoardFull()) {
-        currentPlayer = playerO;
-        updateStatusMessage();
+        switchPlayer();
         setTimeout(() => {
           makeBestMove();
           if (!checkWinner() && !isBoardFull()) {
-            currentPlayer = playerX;
-            updateStatusMessage();
+            switchPlayer();
           }
         }, 500);
       }
@@ -48,11 +40,17 @@ document.addEventListener('DOMContentLoaded', () => {
     board[index] = player;
     cells[index].textContent = player;
     moveHistory.push({ index, player });
+    updateHistory();
+  }
+
+  function switchPlayer() {
+    currentPlayer = currentPlayer === playerX ? playerO : playerX;
+    updateStatusMessage();
   }
 
   function makeBestMove() {
+    let bestMove = null;
     let bestScore = -Infinity;
-    let move;
     for (let i = 0; i < board.length; i++) {
       if (!board[i]) {
         board[i] = playerO;
@@ -60,25 +58,20 @@ document.addEventListener('DOMContentLoaded', () => {
         board[i] = null;
         if (score > bestScore) {
           bestScore = score;
-          move = i;
+          bestMove = i;
         }
       }
     }
-    makeMove(move, playerO);
+    makeMove(bestMove, playerO);
+    if (!checkWinner() && !isBoardFull()) {
+      switchPlayer();
+    }
   }
 
   function minimax(board, depth, isMaximizing) {
-    const scores = {
-      X: -1,
-      O: 1,
-      tie: 0
-    };
-
+    const scores = { X: -1, O: 1, tie: 0 };
     const result = checkWinner(true);
-    if (result !== null) {
-      return scores[result];
-    }
-
+    if (result !== null) return scores[result];
     if (isMaximizing) {
       let bestScore = -Infinity;
       for (let i = 0; i < board.length; i++) {
@@ -105,24 +98,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function checkWinner(returnResult = false) {
-    const winningCombinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
+    const winPatterns = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
     ];
 
-    for (let combination of winningCombinations) {
-      const [a, b, c] = combination;
+    for (let pattern of winPatterns) {
+      const [a, b, c] = pattern;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         if (!returnResult) {
-          displayGameOverMessage(`${board[a]} wins!`);
+          highlightWinningCells(pattern);
           updateScore(board[a]);
-          highlightWinningCells(combination);
+          setTimeout(resetBoard, 2000);
         }
         return board[a];
       }
@@ -130,7 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isBoardFull()) {
       if (!returnResult) {
-        displayGameOverMessage('Draw!');
+        updateStatusMessage('Draw!');
+        setTimeout(resetBoard, 2000);
       }
       return 'tie';
     }
@@ -140,6 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function isBoardFull() {
     return board.every(cell => cell !== null);
+  }
+
+  function highlightWinningCells(pattern) {
+    pattern.forEach(index => cells[index].classList.add('highlight'));
   }
 
   function updateScore(winner) {
@@ -152,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function resetGame() {
+  function resetBoard() {
     board.fill(null);
     cells.forEach(cell => {
       cell.textContent = '';
@@ -160,16 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     currentPlayer = playerX;
     moveHistory = [];
+    updateHistory();
     updateStatusMessage();
-    gameOverMessage.textContent = '';
   }
 
-  function resetScores() {
+  function resetGame() {
     playerXScore = 0;
     playerOScore = 0;
     playerXScoreElement.textContent = playerXScore;
     playerOScoreElement.textContent = playerOScore;
-    resetGame();
+    resetBoard();
   }
 
   function undoMove() {
@@ -178,24 +171,16 @@ document.addEventListener('DOMContentLoaded', () => {
       board[lastMove.index] = null;
       cells[lastMove.index].textContent = '';
       currentPlayer = lastMove.player === playerX ? playerO : playerX;
+      updateHistory();
       updateStatusMessage();
     }
   }
 
-  function updateStatusMessage() {
-    statusMessage.textContent = `Current Player: ${currentPlayer}`;
+  function updateStatusMessage(message = `Current Player: ${currentPlayer}`) {
+    statusMessage.textContent = message;
   }
 
-  function highlightWinningCells(combination) {
-    combination.forEach(index => {
-      cells[index].classList.add('highlight');
-    });
-  }
-combos = [0, 1, 2], [3, 4, 5], [6, 7, 8],
-      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-      [0, 4, 8], [2, 4, 6]
-
-  function displayGameOverMessage(message) {
-    gameOverMessage.textContent = message;
+  function updateHistory() {
+    historyContainer.innerHTML = moveHistory.map(move => `<li>${move.player} to ${move.index}</li>`).join('');
   }
 });
