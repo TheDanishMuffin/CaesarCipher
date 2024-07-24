@@ -1,43 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
   const cells = document.querySelectorAll('.cell');
-  let playerX = 'X';
-  let playerO = 'O';
+  const playerX = 'X';
+  const playerO = 'O';
   let currentPlayer = playerX;
   let board = Array(9).fill(null);
   let playerXScore = 0;
   let playerOScore = 0;
-  let playerXMoves = 0;
-  let playerOMoves = 0;
-  let totalGames = 0;
-  let draws = 0;
   let history = [];
   let redoStack = [];
+  let moveHistory = [];
 
   const playerXScoreElement = document.getElementById('playerX-score');
   const playerOScoreElement = document.getElementById('playerO-score');
-  const totalGamesElement = document.getElementById('total-games');
-  const drawsElement = document.getElementById('draws');
-  const playerXMovesElement = document.getElementById('playerX-moves');
-  const playerOMovesElement = document.getElementById('playerO-moves');
   const difficultySelector = document.getElementById('difficulty');
-  const symbolSelectorX = document.getElementById('symbolX');
-  const symbolSelectorO = document.getElementById('symbolO');
-  const themeSelector = document.getElementById('theme');
-
-  symbolSelectorX.addEventListener('change', updateSymbols);
-  symbolSelectorO.addEventListener('change', updateSymbols);
-  themeSelector.addEventListener('change', updateTheme);
-
-  function updateSymbols() {
-    playerX = symbolSelectorX.value || 'X';
-    playerO = symbolSelectorO.value || 'O';
-    resetGame();
-  }
-
-  function updateTheme() {
-    const theme = themeSelector.value;
-    document.body.className = theme;
-  }
+  const moveHistoryElement = document.getElementById('move-history');
 
   document.getElementById('undo').addEventListener('click', undoMove);
   document.getElementById('redo').addEventListener('click', redoMove);
@@ -47,14 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
       const index = cell.getAttribute('data-index');
       if (!board[index] && currentPlayer === playerX) {
         makeMove(index, playerX);
-        playerXMoves++;
-        updateMoveCount();
         if (!checkWinner() && !board.every(cell => cell !== null)) {
           currentPlayer = playerO;
           setTimeout(() => {
             makeBestMove();
-            playerOMoves++;
-            updateMoveCount();
             if (!checkWinner()) {
               currentPlayer = playerX;
             }
@@ -69,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
     cells[index].textContent = player;
     history.push([...board]);
     redoStack = [];
+    moveHistory.push(`${player} moved to cell ${index}`);
+    updateMoveHistory();
   }
 
   function undoMove() {
@@ -77,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
       board = history[history.length - 1];
       updateBoard();
       currentPlayer = currentPlayer === playerX ? playerO : playerX;
+      moveHistory.pop();
+      updateMoveHistory();
     }
   }
 
@@ -86,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function () {
       board = history[history.length - 1];
       updateBoard();
       currentPlayer = currentPlayer === playerX ? playerO : playerX;
+      moveHistory.push(`${currentPlayer} moved to cell ${history[history.length - 1]}`);
+      updateMoveHistory();
     }
   }
 
@@ -237,8 +215,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!returnResult) {
         setTimeout(() => {
           alert('Draw!');
-          draws++;
-          drawsElement.textContent = draws;
           resetGame();
         }, 1000);
       }
@@ -262,13 +238,6 @@ document.addEventListener('DOMContentLoaded', function () {
       playerOScore++;
       playerOScoreElement.textContent = playerOScore;
     }
-    totalGames++;
-    totalGamesElement.textContent = totalGames;
-  }
-
-  function updateMoveCount() {
-    playerXMovesElement.textContent = playerXMoves;
-    playerOMovesElement.textContent = playerOMoves;
   }
 
   function resetGame() {
@@ -278,10 +247,18 @@ document.addEventListener('DOMContentLoaded', function () {
       cell.style.backgroundColor = '';
     });
     currentPlayer = playerX;
-    playerXMoves = 0;
-    playerOMoves = 0;
-    updateMoveCount();
     history = [];
     redoStack = [];
+    moveHistory = [];
+    updateMoveHistory();
+  }
+
+  function updateMoveHistory() {
+    moveHistoryElement.innerHTML = '';
+    moveHistory.forEach((move, index) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `Move ${index + 1}: ${move}`;
+      moveHistoryElement.appendChild(listItem);
+    });
   }
 });
