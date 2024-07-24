@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Tic Tac Toe</title>
+</head>
+<body>
+  <div class="tic-tac-toe">
+    <div class="grid">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+    <div class="score-board">
+      <div>Player X: <span id="playerX-score">0</span></div>
+      <div>AI O: <span id="playerO-score">0</span></div>
+    </div>
+    <div class="difficulty-selector">
+      <label for="difficulty">Select Difficulty: </label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard" selected>Hard</option>
+        <option value="expert">Expert</option>
+        <option value="master">Master</option>
+      </select>
+    </div>
+    <div class="theme-selector">
+      <label for="theme">Select Theme: </label>
+      <select id="theme">
+        <option value="classic" selected>Classic</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+        <option value="neon">Neon</option>
+        <option value="retro">Retro</option>
+        <option value="nature">Nature</option>
+      </select>
+    </div>
+    <div class="player-type-selector">
+      <label for="player-type">Player Type: </label>
+      <select id="player-type">
+        <option value="human" selected>Human</option>
+        <option value="computer">Computer</option>
+        <option value="alien">Alien</option>
+        <option value="robot">Robot</option>
+      </select>
+    </div>
+    <div class="game-mode-selector">
+      <label for="game-mode">Game Mode: </label>
+      <select id="game-mode">
+        <option value="standard" selected>Standard</option>
+        <option value="timed">Timed</option>
+        <option value="infinite">Infinite</option>
+        <option value="tournament">Tournament</option>
+      </select>
+    </div>
+    <div class="sound-settings">
+      <label for="sound">Sound: </label>
+      <select id="sound">
+        <option value="on" selected>On</option>
+        <option value="off">Off</option>
+        <option value="muted">Muted</option>
+      </select>
+    </div>
+    <div class="background-music-settings">
+      <label for="background-music">Background Music: </label>
+      <select id="background-music">
+        <option value="none" selected>None</option>
+        <option value="jazz">Jazz</option>
+        <option value="classical">Classical</option>
+        <option value="pop">Pop</option>
+        <option value="rock">Rock</option>
+        <option value="electronic">Electronic</option>
+      </select>
+    </div>
+    <div class="language-selector">
+      <label for="language">Language: </label>
+      <select id="language">
+        <option value="english" selected>English</option>
+        <option value="spanish">Spanish</option>
+        <option value="french">French</option>
+        <option value="german">German</option>
+        <option value="chinese">Chinese</option>
+        <option value="japanese">Japanese</option>
+        <option value="korean">Korean</option>
+      </select>
+    </div>
+    <button class="home-button" onclick="location.href='index.html'">Home</button>
+  </div>
+  <script src="tictac.js"></script>
+</body>
+</html>
