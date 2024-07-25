@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Hangman Game</title>
+</head>
+<body>
+  <div class="hangman-container">
+    <h2>Hangman Game</h2>
+
+    <div id="profileContainer">
+      <input type="text" id="playerName" placeholder="Enter your name">
+      <button onclick="createProfile()">Create Profile</button>
+    </div>
+
+    <div id="playerInfo" style="display:none;">
+      <p>Current Player: <span id="currentPlayer"></span></p>
+      <p>High Score: <span id="playerHighScore"></span></p>
+      <button onclick="startGame()">Restart Game</button>
+    </div>
+
+    <div id="settings">
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+
+      <label for="category">Category:</label>
+      <select id="category">
+        <option value="programming">Programming</option>
+        <option value="animals">Animals</option>
+        <option value="countries">Countries</option>
+      </select>
+    </div>
+
+    <div id="gameStats">
+      <p>Wins: <span id="wins">0</span></p>
+      <p>Losses: <span id="losses">0</span></p>
+      <p>High Score: <span id="highScore">0</span></p>
+    </div>
+
+    <div id="wordContainer">_ _ _ _</div>
+    <div id="letterButtons"></div>
+    <p>Guesses Left: <span id="guessesLeft">6</span></p>
+    <p>Letters Used: <span id="lettersUsed">None</span></p>
+    <p>Time Left: <span id="timeLeft">60</span> seconds</p>
+    <p id="hangmanGraphic"></p>
+
+    <button onclick="useHint()">Use Hint</button>
+
+    <div id="leaderboard">
+      <h3>Leaderboard</h3>
+    </div>
+  </div>
+
+  <audio id="correctSound" src="correct.mp3"></audio>
+  <audio id="incorrectSound" src="incorrect.mp3"></audio>
+
+  <script src="main.js"></script>
+</body>
+</html>
