@@ -120,4 +120,101 @@ function guessLetter(letter) {
   if (correctGuess) {
     playSound('correctSound');
   } else {
-    attemptsLeft
+    attemptsLeft--;
+    document.getElementById('guessesLeft').textContent = attemptsLeft;
+    playSound('incorrectSound');
+    updateHangmanGraphic();
+  }
+
+  if (attemptsLeft === 0) {
+    alert(`Game over! The word was: ${chosenWord.word}`);
+    losses++;
+    document.getElementById('losses').textContent = losses;
+    saveScore(false);
+    resetGame();
+  } else if (!displayWord.includes('_')) {
+    alert('Congratulations! You guessed the word!');
+    wins++;
+    document.getElementById('wins').textContent = wins;
+    if (wins > highScore) {
+      highScore = wins;
+      document.getElementById('highScore').textContent = highScore;
+    }
+    saveScore(true);
+    resetGame();
+  }
+}
+
+function useHint() {
+  alert(`Hint: ${chosenWord.hint}`);
+}
+
+function updateHangmanGraphic() {
+  const stages = [
+    "_________\n|        |\n|\n|\n|\n|\n|\n___________",
+    "_________\n|        |\n|        O\n|\n|\n|\n|\n___________",
+    "_________\n|        |\n|        O\n|        |\n|\n|\n|\n___________",
+    "_________\n|        |\n|        O\n|       /|\n|\n|\n|\n___________",
+    "_________\n|        |\n|        O\n|       /|\\\n|\n|\n|\n___________",
+    "_________\n|        |\n|        O\n|       /|\\\n|       /\n|\n|\n___________",
+    "_________\n|        |\n|        O\n|       /|\\\n|       / \\\n|\n|\n___________"
+  ];
+
+  document.getElementById('hangmanGraphic').textContent = stages[6 - attemptsLeft];
+}
+
+function startTimer() {
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timeLeft').textContent = timeLeft;
+    if (timeLeft === 0) {
+      clearInterval(timer);
+      alert(`Time's up! The word was: ${chosenWord.word}`);
+      losses++;
+      document.getElementById('losses').textContent = losses;
+      saveScore(false);
+      resetGame();
+    }
+  }, 1000);
+}
+
+function playSound(soundId) {
+  document.getElementById(soundId).play();
+}
+
+function saveScore(win) {
+  const player = players[currentPlayer];
+  if (win) {
+    player.wins++;
+    if (player.wins > player.highScore) {
+      player.highScore = player.wins;
+    }
+    if (!achievements.includes("First Win") && player.wins === 1) {
+      achievements.push("First Win");
+    }
+    if (!achievements.includes("Five Wins") && player.wins === 5) {
+      achievements.push("Five Wins");
+    }
+  } else {
+    player.losses++;
+  }
+  player.achievements = achievements;
+  localStorage.setItem('players', JSON.stringify(players));
+  loadLeaderboard();
+}
+
+function resetGame() {
+  startGame();
+}
+
+function loadLeaderboard() {
+  const leaderboardContainer = document.getElementById('leaderboard');
+  leaderboardContainer.innerHTML = '';
+  const sortedPlayers = Object.keys(players).sort((a, b) => players[b].highScore - players[a].highScore);
+  sortedPlayers.forEach(player => {
+    const playerData = players[player];
+    const playerElement = document.createElement('p');
+    playerElement.textContent = `${player}: High Score - ${playerData.highScore}, Wins - ${playerData.wins}, Losses - ${playerData.losses}`;
+    leaderboardContainer.appendChild(playerElement);
+  });
+}
