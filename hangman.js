@@ -4,68 +4,60 @@ let lettersUsed = [];
 let displayWord = '';
 let wins = 0;
 let losses = 0;
+let highScore = 0;
+let timer = null;
+let timeLeft = 60;
+const words = {
+  programming: ['JAVASCRIPT', 'PYTHON', 'JAVA', 'HTML', 'CSS'],
+  animals: ['ELEPHANT', 'GIRAFFE', 'CROCODILE', 'KANGAROO', 'PANDA'],
+  countries: ['CANADA', 'AUSTRALIA', 'GERMANY', 'BRAZIL', 'INDIA']
+};
+let currentCategory = 'programming';
+let currentDifficulty = 'easy';
 
 function startGame() {
-  guessesLeft = 6;
-  lettersUsed = [];
-  displayWord = '';
+  resetGameState();
 
-  const words = ['PROGRAMMING', 'ANIMALS', 'COUNTRIES', 'CHICKEN'];
-  currentWord = words[Math.floor(Math.random() * words.length)];
+  const wordList = words[currentCategory];
+  currentWord = wordList[Math.floor(Math.random() * wordList.length)];
 
-  for (let i = 0; i < currentWord.length; i++) {
-    displayWord += '_ ';
-  }
-
+  displayWord = '_ '.repeat(currentWord.length);
   document.getElementById('wordContainer').textContent = displayWord;
   document.getElementById('guessesLeft').textContent = guessesLeft;
   document.getElementById('lettersUsed').textContent = 'None';
+  document.getElementById('timeLeft').textContent = timeLeft;
+
+  startTimer();
 }
 
-function handleLetterClick(letter) {
 
+function handleLetterClick(letter) {
   if (lettersUsed.includes(letter)) {
-    alert('You have already used that letter.');
+    alert('You have already used that letter bruh.');
     return;
   }
 
-
   lettersUsed.push(letter);
-
+  updateLettersUsedDisplay();
 
   if (currentWord.includes(letter)) {
-
-    let newDisplayWord = '';
-    for (let i = 0; i < currentWord.length; i++) {
-      if (currentWord[i] === letter) {
-        newDisplayWord += letter + ' ';
-      } else {
-        newDisplayWord += displayWord[i * 2] + ' ';
-      }
-    }
-    displayWord = newDisplayWord;
-    document.getElementById('wordContainer').textContent = displayWord;
-
-
+    updateDisplayWord(letter);
     if (!displayWord.includes('_')) {
       alert('You won!');
       wins++;
-      document.getElementById('wins').textContent = wins;
+      updateGameStats();
       startGame();
     }
   } else {
     guessesLeft--;
     document.getElementById('guessesLeft').textContent = guessesLeft;
-
     if (guessesLeft === 0) {
-      alert('You lost! The word was: ' + currentWord);
+      alert(`You lost! The word was: ${currentWord}`);
       losses++;
-      document.getElementById('losses').textContent = losses;
+      updateGameStats();
       startGame();
     }
   }
-
-  document.getElementById('lettersUsed').textContent = lettersUsed.join(', ');
 }
 
 function createProfile() {
@@ -84,6 +76,3 @@ function useHint() {
   alert('Hint feature not implemented yet.');
 }
 
-window.onload = () => {
-  document.getElementById('playerName').focus();
-}
