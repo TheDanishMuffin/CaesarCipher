@@ -76,3 +76,77 @@ function useHint() {
   alert('Hint feature not implemented yet.');
 }
 
+function updateDisplayWord(letter) {
+  let newDisplayWord = '';
+  for (let i = 0; i < currentWord.length; i++) {
+    if (currentWord[i] === letter) {
+      newDisplayWord += letter + ' ';
+    } else {
+      newDisplayWord += displayWord[i * 2] + ' ';
+    }
+  }
+  displayWord = newDisplayWord;
+  document.getElementById('wordContainer').textContent = displayWord;
+}
+
+
+function updateLettersUsedDisplay() {
+  document.getElementById('lettersUsed').textContent = lettersUsed.join(', ');
+}
+
+function resetGameState() {
+  guessesLeft = currentDifficulty === 'easy' ? 6 : currentDifficulty === 'medium' ? 4 : 3;
+  lettersUsed = [];
+  displayWord = '';
+  timeLeft = 60;
+  clearInterval(timer);
+}
+
+function startTimer() {
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timeLeft').textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      alert(`Time's up! The word was: ${currentWord}`);
+      losses++;
+      updateGameStats();
+      startGame();
+    }
+  }, 1000);
+}
+
+function updateGameStats() {
+  document.getElementById('wins').textContent = wins;
+  document.getElementById('losses').textContent = losses;
+  highScore = Math.max(highScore, wins);
+  document.getElementById('highScore').textContent = highScore;
+}
+
+function setDifficulty() {
+  currentDifficulty = document.getElementById('difficulty').value;
+  startGame();
+}
+
+function setCategory() {
+  currentCategory = document.getElementById('category').value;
+  startGame();
+}
+
+window.onload = () => {
+  document.getElementById('playerName').focus();
+  createLetterButtons();
+}
+
+function createLetterButtons() {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const letterButtonsDiv = document.getElementById('letterButtons');
+  letterButtonsDiv.innerHTML = '';
+
+  for (let letter of letters) {
+    const button = document.createElement('button');
+    button.textContent = letter;
+    button.onclick = () => handleLetterClick(letter);
+    letterButtonsDiv.appendChild(button);
+  }
+}
