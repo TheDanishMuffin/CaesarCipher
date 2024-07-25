@@ -7,22 +7,25 @@ let losses = 0;
 let highScore = 0;
 let timer = null;
 let timeLeft = 60;
+let isPaused = false;
+
 const words = {
   programming: ['JAVASCRIPT', 'PYTHON', 'JAVA', 'HTML', 'CSS'],
   animals: ['ELEPHANT', 'GIRAFFE', 'CROCODILE', 'KANGAROO', 'PANDA'],
   countries: ['CANADA', 'AUSTRALIA', 'GERMANY', 'BRAZIL', 'INDIA']
 };
+
 const hints = {
   programming: ['A popular language for web development', 'A snake or a programming language', 'A coffee or a programming language', 'Markup language', 'Stylesheet language'],
   animals: ['Largest land animal', 'Tallest animal', 'Has a strong bite', 'Australian jumper', 'Eats bamboo'],
   countries: ['Maple syrup country', 'Land of kangaroos', 'Land of beer', 'Carnival country', 'Country of spices']
 };
+
 let currentCategory = 'programming';
 let currentDifficulty = 'easy';
 
 function startGame() {
   resetGameState();
-
   const wordList = words[currentCategory];
   currentWord = wordList[Math.floor(Math.random() * wordList.length)];
 
@@ -111,18 +114,22 @@ function resetGameState() {
   displayWord = '';
   timeLeft = 60;
   clearInterval(timer);
+  isPaused = false;
+  document.getElementById('pauseButton').textContent = 'Pause';
 }
 
 function startTimer() {
   timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById('timeLeft').textContent = timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      alert(`Time's up! The word was: ${currentWord}`);
-      losses++;
-      updateGameStats();
-      startGame();
+    if (!isPaused) {
+      timeLeft--;
+      document.getElementById('timeLeft').textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        alert(`Time's up! The word was: ${currentWord}`);
+        losses++;
+        updateGameStats();
+        startGame();
+      }
     }
   }, 1000);
 }
@@ -171,11 +178,7 @@ function displayLeaderboard() {
 
 function toggleLeaderboard() {
   const leaderboardDiv = document.getElementById('leaderboard');
-  if (leaderboardDiv.style.display === 'none') {
-    leaderboardDiv.style.display = 'block';
-  } else {
-    leaderboardDiv.style.display = 'none';
-  }
+  leaderboardDiv.style.display = leaderboardDiv.style.display === 'none' ? 'block' : 'none';
 }
 
 function playSound(type) {
@@ -209,7 +212,17 @@ function customWordInput() {
     createLetterButtons();
     updateHangmanVisual();
   } else {
-    alert('Invalid word. Enter only lettters!.');
+    alert('Invalid word. Enter only letters.');
+  }
+}
+
+function togglePause() {
+  isPaused = !isPaused;
+  document.getElementById('pauseButton').textContent = isPaused ? 'Resume' : 'Pause';
+  if (!isPaused) {
+    startTimer();
+  } else {
+    clearInterval(timer);
   }
 }
 
@@ -217,7 +230,8 @@ window.onload = () => {
   document.getElementById('playerName').focus();
   createLetterButtons();
   displayLeaderboard();
-}
+  document.getElementById('pauseButton').onclick = togglePause;
+};
 
 function createLetterButtons() {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
