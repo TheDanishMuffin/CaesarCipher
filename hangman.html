@@ -9,18 +9,15 @@
 <body>
   <div class="hangman-container">
     <h2>Hangman Game</h2>
-
     <div id="profileContainer">
       <input type="text" id="playerName" placeholder="Enter your name">
       <button onclick="createProfile()">Create Profile</button>
     </div>
-
     <div id="playerInfo" style="display:none;">
       <p>Current Player: <span id="currentPlayer"></span></p>
       <p>High Score: <span id="playerHighScore"></span></p>
       <button onclick="startGame()">Restart Game</button>
     </div>
-
     <div id="settings">
       <label for="difficulty">Difficulty:</label>
       <select id="difficulty">
@@ -28,7 +25,6 @@
         <option value="medium">Medium</option>
         <option value="hard">Hard</option>
       </select>
-
       <label for="category">Category:</label>
       <select id="category">
         <option value="programming">Programming</option>
@@ -36,30 +32,48 @@
         <option value="countries">Countries</option>
       </select>
     </div>
-
     <div id="gameStats">
       <p>Wins: <span id="wins">0</span></p>
       <p>Losses: <span id="losses">0</span></p>
       <p>High Score: <span id="highScore">0</span></p>
     </div>
-
     <div id="wordContainer">_ _ _ _</div>
-    <div id="letterButtons"></div>
+    <div id="letterButtons">
+      <button onclick="handleLetterClick('A')">A</button>
+      <button onclick="handleLetterClick('B')">B</button>
+      <button onclick="handleLetterClick('C')">C</button>
+      <button onclick="handleLetterClick('D')">D</button>
+      <button onclick="handleLetterClick('E')">E</button>
+      <button onclick="handleLetterClick('F')">F</button>
+      <button onclick="handleLetterClick('G')">G</button>
+      <button onclick="handleLetterClick('H')">H</button>
+      <button onclick="handleLetterClick('I')">I</button>
+      <button onclick="handleLetterClick('J')">J</button>
+      <button onclick="handleLetterClick('K')">K</button>
+      <button onclick="handleLetterClick('L')">L</button>
+      <button onclick="handleLetterClick('M')">M</button>
+      <button onclick="handleLetterClick('N')">N</button>
+      <button onclick="handleLetterClick('O')">O</button>
+      <button onclick="handleLetterClick('P')">P</button>
+      <button onclick="handleLetterClick('Q')">Q</button>
+      <button onclick="handleLetterClick('R')">R</button>
+      <button onclick="handleLetterClick('S')">S</button>
+      <button onclick="handleLetterClick('T')">T</button>
+      <button onclick="handleLetterClick('U')">U</button>
+      <button onclick="handleLetterClick('V')">V</button>
+      <button onclick="handleLetterClick('W')">W</button>
+      <button onclick="handleLetterClick('X')">X</button>
+      <button onclick="handleLetterClick('Y')">Y</button>
+      <button onclick="handleLetterClick('Z')">Z</button>
+    </div>
     <p>Guesses Left: <span id="guessesLeft">6</span></p>
     <p>Letters Used: <span id="lettersUsed">None</span></p>
     <p>Time Left: <span id="timeLeft">60</span> seconds</p>
-    <p id="hangmanGraphic"></p>
-
     <button onclick="useHint()">Use Hint</button>
-
     <div id="leaderboard">
       <h3>Leaderboard</h3>
     </div>
   </div>
-
-  <audio id="correctSound" src="correct.mp3"></audio>
-  <audio id="incorrectSound" src="incorrect.mp3"></audio>
-
-  <script src="main.js"></script>
+  <script src="hangman.js"></script>
 </body>
 </html>
