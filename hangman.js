@@ -12,6 +12,11 @@ const words = {
   animals: ['ELEPHANT', 'GIRAFFE', 'CROCODILE', 'KANGAROO', 'PANDA'],
   countries: ['CANADA', 'AUSTRALIA', 'GERMANY', 'BRAZIL', 'INDIA']
 };
+const hints = {
+  programming: ['A popular language for web development', 'A snake or a programming language', 'A coffee or a programming language', 'Markup language', 'Stylesheet language'],
+  animals: ['Largest land animal', 'Tallest animal', 'Has a strong bite', 'Australian jumper', 'Eats bamboo'],
+  countries: ['Maple syrup country', 'Land of kangaroos', 'Land of beer', 'Carnival country', 'Country of spices']
+};
 let currentCategory = 'programming';
 let currentDifficulty = 'easy';
 
@@ -28,12 +33,12 @@ function startGame() {
   document.getElementById('timeLeft').textContent = timeLeft;
 
   startTimer();
+  createLetterButtons();
 }
-
 
 function handleLetterClick(letter) {
   if (lettersUsed.includes(letter)) {
-    alert('You have already used that letter bruh.');
+    alert('You have already used that letter.');
     return;
   }
 
@@ -46,6 +51,7 @@ function handleLetterClick(letter) {
       alert('You won!');
       wins++;
       updateGameStats();
+      updateLeaderboard();
       startGame();
     }
   } else {
@@ -73,7 +79,8 @@ function createProfile() {
 }
 
 function useHint() {
-  alert('Hint feature not implemented yet.');
+  const hintIndex = words[currentCategory].indexOf(currentWord);
+  alert(`Hint: ${hints[currentCategory][hintIndex]}`);
 }
 
 function updateDisplayWord(letter) {
@@ -88,7 +95,6 @@ function updateDisplayWord(letter) {
   displayWord = newDisplayWord;
   document.getElementById('wordContainer').textContent = displayWord;
 }
-
 
 function updateLettersUsedDisplay() {
   document.getElementById('lettersUsed').textContent = lettersUsed.join(', ');
@@ -133,9 +139,31 @@ function setCategory() {
   startGame();
 }
 
+function updateLeaderboard() {
+  const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+  const playerName = document.getElementById('currentPlayer').textContent;
+  const playerScore = { name: playerName, score: wins };
+  leaderboard.push(playerScore);
+  leaderboard.sort((a, b) => b.score - a.score);
+  localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+  displayLeaderboard();
+}
+
+function displayLeaderboard() {
+  const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+  const leaderboardDiv = document.getElementById('leaderboard');
+  leaderboardDiv.innerHTML = '<h3>Leaderboard</h3>';
+  leaderboard.forEach(player => {
+    const playerDiv = document.createElement('div');
+    playerDiv.textContent = `${player.name}: ${player.score}`;
+    leaderboardDiv.appendChild(playerDiv);
+  });
+}
+
 window.onload = () => {
   document.getElementById('playerName').focus();
   createLetterButtons();
+  displayLeaderboard();
 }
 
 function createLetterButtons() {
