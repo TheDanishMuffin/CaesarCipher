@@ -34,6 +34,7 @@ function startGame() {
 
   startTimer();
   createLetterButtons();
+  updateHangmanVisual();
 }
 
 function handleLetterClick(letter) {
@@ -47,6 +48,7 @@ function handleLetterClick(letter) {
 
   if (currentWord.includes(letter)) {
     updateDisplayWord(letter);
+    playSound('correct');
     if (!displayWord.includes('_')) {
       alert('You won!');
       wins++;
@@ -56,8 +58,11 @@ function handleLetterClick(letter) {
     }
   } else {
     guessesLeft--;
+    playSound('incorrect');
     document.getElementById('guessesLeft').textContent = guessesLeft;
+    updateHangmanVisual();
     if (guessesLeft === 0) {
+      playSound('loss');
       alert(`You lost! The word was: ${currentWord}`);
       losses++;
       updateGameStats();
@@ -127,6 +132,10 @@ function updateGameStats() {
   document.getElementById('losses').textContent = losses;
   highScore = Math.max(highScore, wins);
   document.getElementById('highScore').textContent = highScore;
+  const totalGames = wins + losses;
+  const winPercentage = totalGames ? ((wins / totalGames) * 100).toFixed(2) : 0;
+  document.getElementById('totalGames').textContent = totalGames;
+  document.getElementById('winPercentage').textContent = winPercentage + '%';
 }
 
 function setDifficulty() {
@@ -158,6 +167,50 @@ function displayLeaderboard() {
     playerDiv.textContent = `${player.name}: ${player.score}`;
     leaderboardDiv.appendChild(playerDiv);
   });
+}
+
+function toggleLeaderboard() {
+  const leaderboardDiv = document.getElementById('leaderboard');
+  if (leaderboardDiv.style.display === 'none') {
+    leaderboardDiv.style.display = 'block';
+  } else {
+    leaderboardDiv.style.display = 'none';
+  }
+}
+
+function playSound(type) {
+  const audio = new Audio(`sounds/${type}.mp3`);
+  audio.play();
+}
+
+function updateHangmanVisual() {
+  const hangmanStages = [
+    '',
+    'O',
+    'O\n |',
+    'O\n/|',
+    'O\n/|\\',
+    'O\n/|\\ \n/',
+    'O\n/|\\ \n/ \\'
+  ];
+  document.getElementById('hangmanVisual').textContent = hangmanStages[6 - guessesLeft];
+}
+
+function customWordInput() {
+  const customWord = prompt('Enter a custom word:').toUpperCase();
+  if (customWord && /^[A-Z]+$/.test(customWord)) {
+    currentWord = customWord;
+    displayWord = '_ '.repeat(currentWord.length);
+    document.getElementById('wordContainer').textContent = displayWord;
+    document.getElementById('guessesLeft').textContent = guessesLeft;
+    document.getElementById('lettersUsed').textContent = 'None';
+    document.getElementById('timeLeft').textContent = timeLeft;
+    startTimer();
+    createLetterButtons();
+    updateHangmanVisual();
+  } else {
+    alert('Invalid word. Enter only lettters!.');
+  }
 }
 
 window.onload = () => {
