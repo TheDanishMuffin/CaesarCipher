@@ -26,18 +26,24 @@ let currentDifficulty = 'easy';
 
 function startGame() {
   resetGameState();
+  setRandomWord();
+  updateDisplayElements();
+  startTimer();
+  createLetterButtons();
+  updateHangmanVisual();
+}
+
+function setRandomWord() {
   const wordList = words[currentCategory];
   currentWord = wordList[Math.floor(Math.random() * wordList.length)];
-
   displayWord = '_ '.repeat(currentWord.length);
+}
+
+function updateDisplayElements() {
   document.getElementById('wordContainer').textContent = displayWord;
   document.getElementById('guessesLeft').textContent = guessesLeft;
   document.getElementById('lettersUsed').textContent = 'None';
   document.getElementById('timeLeft').textContent = timeLeft;
-
-  startTimer();
-  createLetterButtons();
-  updateHangmanVisual();
 }
 
 function handleLetterClick(letter) {
@@ -52,25 +58,32 @@ function handleLetterClick(letter) {
   if (currentWord.includes(letter)) {
     updateDisplayWord(letter);
     playSound('correct');
-    if (!displayWord.includes('_')) {
-      alert('You won!');
-      wins++;
-      updateGameStats();
-      updateLeaderboard();
-      startGame();
-    }
+    checkWinCondition();
   } else {
     guessesLeft--;
     playSound('incorrect');
-    document.getElementById('guessesLeft').textContent = guessesLeft;
-    updateHangmanVisual();
-    if (guessesLeft === 0) {
-      playSound('loss');
-      alert(`You lost! The word was: ${currentWord}`);
-      losses++;
-      updateGameStats();
-      startGame();
-    }
+    updateGuessesLeft();
+    checkLoseCondition();
+  }
+}
+
+function checkWinCondition() {
+  if (!displayWord.includes('_')) {
+    alert('You won!');
+    wins++;
+    updateGameStats();
+    updateLeaderboard();
+    startGame();
+  }
+}
+
+function checkLoseCondition() {
+  if (guessesLeft === 0) {
+    playSound('loss');
+    alert(`You lost! The word was: ${currentWord}`);
+    losses++;
+    updateGameStats();
+    startGame();
   }
 }
 
@@ -94,11 +107,7 @@ function useHint() {
 function updateDisplayWord(letter) {
   let newDisplayWord = '';
   for (let i = 0; i < currentWord.length; i++) {
-    if (currentWord[i] === letter) {
-      newDisplayWord += letter + ' ';
-    } else {
-      newDisplayWord += displayWord[i * 2] + ' ';
-    }
+    newDisplayWord += (currentWord[i] === letter ? letter : displayWord[i * 2]) + ' ';
   }
   displayWord = newDisplayWord;
   document.getElementById('wordContainer').textContent = displayWord;
@@ -109,13 +118,17 @@ function updateLettersUsedDisplay() {
 }
 
 function resetGameState() {
-  guessesLeft = currentDifficulty === 'easy' ? 6 : currentDifficulty === 'medium' ? 4 : 3;
+  guessesLeft = getGuessesLeftByDifficulty();
   lettersUsed = [];
   displayWord = '';
   timeLeft = 60;
   clearInterval(timer);
   isPaused = false;
   document.getElementById('pauseButton').textContent = 'Pause';
+}
+
+function getGuessesLeftByDifficulty() {
+  return currentDifficulty === 'easy' ? 6 : currentDifficulty === 'medium' ? 4 : 3;
 }
 
 function startTimer() {
@@ -139,10 +152,14 @@ function updateGameStats() {
   document.getElementById('losses').textContent = losses;
   highScore = Math.max(highScore, wins);
   document.getElementById('highScore').textContent = highScore;
+  updateTotalGamesAndWinPercentage();
+}
+
+function updateTotalGamesAndWinPercentage() {
   const totalGames = wins + losses;
   const winPercentage = totalGames ? ((wins / totalGames) * 100).toFixed(2) : 0;
   document.getElementById('totalGames').textContent = totalGames;
-  document.getElementById('winPercentage').textContent = winPercentage + '%';
+  document.getElementById('winPercentage').textContent = `${winPercentage}%`;
 }
 
 function setDifficulty() {
@@ -204,10 +221,7 @@ function customWordInput() {
   if (customWord && /^[A-Z]+$/.test(customWord)) {
     currentWord = customWord;
     displayWord = '_ '.repeat(currentWord.length);
-    document.getElementById('wordContainer').textContent = displayWord;
-    document.getElementById('guessesLeft').textContent = guessesLeft;
-    document.getElementById('lettersUsed').textContent = 'None';
-    document.getElementById('timeLeft').textContent = timeLeft;
+    updateDisplayElements();
     startTimer();
     createLetterButtons();
     updateHangmanVisual();
@@ -257,5 +271,11 @@ function loadGameState() {
     currentCategory = gameState.currentCategory;
     currentDifficulty = gameState.currentDifficulty;
 
-    document.getElementById('wordContainer').textContent = displayWord;
-    document.getElementById('guesses
+    updateDisplayElements();
+    document.getElementById('lettersUsed').textContent = lettersUsed.join(', ');
+    updateHangmanVisual();
+    startTimer();
+  } else {
+    alert('No saved game state found.');
+  }
+}
