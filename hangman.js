@@ -170,7 +170,6 @@ function updateGameStats() {
   document.getElementById('highScore').textContent = highScore;
   updateTotalGamesAndWinPercentage();
 }
-
 function updateTotalGamesAndWinPercentage() {
   const totalGames = wins + losses;
   const winPercentage = totalGames ? ((wins / totalGames) * 100).toFixed(2) : 0;
