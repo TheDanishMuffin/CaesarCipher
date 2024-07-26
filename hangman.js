@@ -8,6 +8,10 @@ let highScore = 0;
 let timer = null;
 let timeLeft = 60;
 let isPaused = false;
+let isMultiplayer = false;
+let currentPlayerIndex = 0;
+let players = [];
+let usedHints = 0;
 
 const words = {
   programming: ['JAVASCRIPT', 'PYTHON', 'JAVA', 'HTML', 'CSS'],
@@ -44,6 +48,7 @@ function updateDisplayElements() {
   document.getElementById('guessesLeft').textContent = guessesLeft;
   document.getElementById('lettersUsed').textContent = 'None';
   document.getElementById('timeLeft').textContent = timeLeft;
+  document.getElementById('usedHints').textContent = usedHints;
 }
 
 function handleLetterClick(letter) {
@@ -78,11 +83,21 @@ function handleLetterClick(letter) {
       startGame();
     }
   }
+
+  if (isMultiplayer) {
+    switchPlayer();
+  }
+}
+
+function switchPlayer() {
+  currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+  document.getElementById('currentPlayer').textContent = players[currentPlayerIndex];
 }
 
 function createProfile() {
   const playerName = document.getElementById('playerName').value;
   if (playerName) {
+    players.push(playerName);
     document.getElementById('currentPlayer').textContent = playerName;
     document.getElementById('profileContainer').style.display = 'none';
     document.getElementById('playerInfo').style.display = 'block';
@@ -93,8 +108,14 @@ function createProfile() {
 }
 
 function useHint() {
-  const hintIndex = words[currentCategory].indexOf(currentWord);
-  alert(`Hint: ${hints[currentCategory][hintIndex]}`);
+  if (usedHints < 3) {
+    const hintIndex = words[currentCategory].indexOf(currentWord);
+    alert(`Hint: ${hints[currentCategory][hintIndex]}`);
+    usedHints++;
+    document.getElementById('usedHints').textContent = usedHints;
+  } else {
+    alert('No more hints available!');
+  }
 }
 
 function updateDisplayWord(letter) {
@@ -115,6 +136,7 @@ function resetGameState() {
   lettersUsed = [];
   displayWord = '';
   timeLeft = 60;
+  usedHints = 0;
   clearInterval(timer);
   isPaused = false;
   document.getElementById('pauseButton').textContent = 'Pause';
@@ -246,6 +268,8 @@ function saveGameState() {
     timeLeft,
     currentCategory,
     currentDifficulty,
+    players,
+    currentPlayerIndex,
   };
   localStorage.setItem('hangmanGameState', JSON.stringify(gameState));
   alert('Game state saved!');
@@ -264,6 +288,8 @@ function loadGameState() {
     timeLeft = gameState.timeLeft;
     currentCategory = gameState.currentCategory;
     currentDifficulty = gameState.currentDifficulty;
+    players = gameState.players;
+    currentPlayerIndex = gameState.currentPlayerIndex;
 
     updateDisplayElements();
     document.getElementById('lettersUsed').textContent = lettersUsed.join(', ');
@@ -301,4 +327,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('difficulty').addEventListener('change', setDifficulty);
   document.getElementById('category').addEventListener('change', setCategory);
   document.getElementById('toggleLeaderboard').addEventListener('click', toggleLeaderboard);
+  document.getElementById('multiplayerButton').addEventListener('click', () => {
+    isMultiplayer = !isMultiplayer;
+    document.getElementById('multiplayerStatus').textContent = isMultiplayer ? 'Multiplayer Mode: ON' : 'Multiplayer Mode: OFF';
+    startGame();
+  });
 });
