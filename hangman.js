@@ -226,22 +226,36 @@ function togglePause() {
   }
 }
 
-window.onload = () => {
-  document.getElementById('playerName').focus();
-  createLetterButtons();
-  displayLeaderboard();
-  document.getElementById('pauseButton').onclick = togglePause;
-};
-
-function createLetterButtons() {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const letterButtonsDiv = document.getElementById('letterButtons');
-  letterButtonsDiv.innerHTML = '';
-
-  for (let letter of letters) {
-    const button = document.createElement('button');
-    button.textContent = letter;
-    button.onclick = () => handleLetterClick(letter);
-    letterButtonsDiv.appendChild(button);
-  }
+function saveGameState() {
+  const gameState = {
+    currentWord,
+    guessesLeft,
+    lettersUsed,
+    displayWord,
+    wins,
+    losses,
+    highScore,
+    timeLeft,
+    currentCategory,
+    currentDifficulty,
+  };
+  localStorage.setItem('hangmanGameState', JSON.stringify(gameState));
+  alert('Game state saved!');
 }
+
+function loadGameState() {
+  const gameState = JSON.parse(localStorage.getItem('hangmanGameState'));
+  if (gameState) {
+    currentWord = gameState.currentWord;
+    guessesLeft = gameState.guessesLeft;
+    lettersUsed = gameState.lettersUsed;
+    displayWord = gameState.displayWord;
+    wins = gameState.wins;
+    losses = gameState.losses;
+    highScore = gameState.highScore;
+    timeLeft = gameState.timeLeft;
+    currentCategory = gameState.currentCategory;
+    currentDifficulty = gameState.currentDifficulty;
+
+    document.getElementById('wordContainer').textContent = displayWord;
+    document.getElementById('guesses
