@@ -58,32 +58,25 @@ function handleLetterClick(letter) {
   if (currentWord.includes(letter)) {
     updateDisplayWord(letter);
     playSound('correct');
-    checkWinCondition();
+    if (!displayWord.includes('_')) {
+      alert('You won!');
+      wins++;
+      updateGameStats();
+      updateLeaderboard();
+      startGame();
+    }
   } else {
     guessesLeft--;
     playSound('incorrect');
-    updateGuessesLeft();
-    checkLoseCondition();
-  }
-}
-
-function checkWinCondition() {
-  if (!displayWord.includes('_')) {
-    alert('You won!');
-    wins++;
-    updateGameStats();
-    updateLeaderboard();
-    startGame();
-  }
-}
-
-function checkLoseCondition() {
-  if (guessesLeft === 0) {
-    playSound('loss');
-    alert(`You lost! The word was: ${currentWord}`);
-    losses++;
-    updateGameStats();
-    startGame();
+    document.getElementById('guessesLeft').textContent = guessesLeft;
+    updateHangmanVisual();
+    if (guessesLeft <= 0) {
+      playSound('loss');
+      alert(`You lost! The word was: ${currentWord}`);
+      losses++;
+      updateGameStats();
+      startGame();
+    }
   }
 }
 
@@ -132,6 +125,7 @@ function getGuessesLeftByDifficulty() {
 }
 
 function startTimer() {
+  clearInterval(timer);
   timer = setInterval(() => {
     if (!isPaused) {
       timeLeft--;
@@ -273,9 +267,38 @@ function loadGameState() {
 
     updateDisplayElements();
     document.getElementById('lettersUsed').textContent = lettersUsed.join(', ');
-    updateHangmanVisual();
+    document.getElementById('wins').textContent = wins;
+    document.getElementById('losses').textContent = losses;
+    document.getElementById('highScore').textContent = highScore;
+    updateTotalGamesAndWinPercentage();
     startTimer();
+    createLetterButtons();
+    updateHangmanVisual();
   } else {
-    alert('No saved game state found.');
+    alert('No saved game found.');
   }
 }
+
+function createLetterButtons() {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const buttonsContainer = document.getElementById('letterButtons');
+  buttonsContainer.innerHTML = '';
+  for (let letter of alphabet) {
+    const button = document.createElement('button');
+    button.textContent = letter;
+    button.addEventListener('click', () => handleLetterClick(letter));
+    buttonsContainer.appendChild(button);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('startButton').addEventListener('click', startGame);
+  document.getElementById('customWordButton').addEventListener('click', customWordInput);
+  document.getElementById('hintButton').addEventListener('click', useHint);
+  document.getElementById('pauseButton').addEventListener('click', togglePause);
+  document.getElementById('saveButton').addEventListener('click', saveGameState);
+  document.getElementById('loadButton').addEventListener('click', loadGameState);
+  document.getElementById('difficulty').addEventListener('change', setDifficulty);
+  document.getElementById('category').addEventListener('change', setCategory);
+  document.getElementById('toggleLeaderboard').addEventListener('click', toggleLeaderboard);
+});
