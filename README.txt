@@ -4,3 +4,10 @@ This is my first personal website ever! Although it is not perfect, I learned a 
 Have fun by playing hangman and tic tac toe as well!
 
 I hope you enjoyed it!
+
+Project Breakdown:
+hosted site: https://new-sandbox-program-17-10388390.codehs.me/index.html
+This site was a larger project with some mini projects built in:
+Coverflow gallery with my photographs with animations and styling
+Tic-Tac toe game
+Hangman game
